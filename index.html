@@ -711,7 +711,7 @@
 
         .shop-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 2rem;
             margin-top: 3rem;
         }
@@ -1250,6 +1250,13 @@
         }
 
         /* Responsive Design */
+        @media (max-width: 1200px) {
+            .shop-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+        }
+        
         @media (max-width: 768px) {
             .nav-menu {
                 display: none;
@@ -1596,6 +1603,13 @@
             <div class="section-header">
                 <h2 class="section-title">Boutique</h2>
                 <p class="section-subtitle">Packages de sites web professionnels</p>
+                <div class="promo-banner" style="margin-bottom: 1rem;">
+                    <div class="promo-content">
+                        <i class="fas fa-star"></i>
+                        <span class="promo-text">🎉 <strong>OFFRE GRATUITE</strong> jusqu'au 5 août 2025 ! 🎉</span>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
                 <div class="promo-banner">
                     <div class="promo-content">
                         <i class="fas fa-gift"></i>
@@ -1607,6 +1621,21 @@
             
             <!-- Packs prédéfinis -->
             <div class="shop-grid">
+                <div class="shop-item">
+                    <div class="shop-badge">GRATUIT</div>
+                    <div class="shop-item-header">
+                        <h3>Pack Gratuit</h3>
+                        <div class="price">0€</div>
+                    </div>
+                    <ul class="shop-features">
+                        <li><i class="fas fa-check"></i> Site web simple</li>
+                        <li><i class="fas fa-check"></i> 1 page d'accueil</li>
+                        <li><i class="fas fa-check"></i> Design basique</li>
+                        <li><i class="fas fa-check"></i> Valide jusqu'au 5 août 2025</li>
+                        <li><i class="fas fa-check"></i> 5% de reduc sur les prochain site</li>
+                    </ul>
+                    <button class="btn-shop-item">Commander</button>
+                </div>
                 <div class="shop-item">
                     <div class="shop-item-header">
                         <h3>Pack Basic</h3>
@@ -2145,20 +2174,33 @@
                     const packName = shopItem.querySelector('h3').textContent;
                     const packPrice = shopItem.querySelector('.price').textContent;
                     
-                    // Appliquer la réduction de 10%
-                    const originalPrice = parseInt(packPrice.replace('€', ''));
-                    const discount = Math.round(originalPrice * 0.1);
-                    const finalPrice = originalPrice - discount;
-                    
-                    showOrderModal(packName, `${finalPrice}€ (au lieu de ${originalPrice}€)`);
-                    
-                    // Logger l'action
-                    logAction('Boutique - Pack prédéfini', {
-                        pack: packName,
-                        prix_original: originalPrice,
-                        prix_final: finalPrice,
-                        reduction: discount
-                    });
+                    // Vérifier si c'est le pack gratuit
+                    if (packName === 'Pack Gratuit') {
+                        showOrderModal(packName, 'GRATUIT jusqu\'au 5 août 2025 + 5% de reduc sur les prochain site');
+                        
+                        // Logger l'action
+                        logAction('Boutique - Pack gratuit', {
+                            pack: packName,
+                            prix: 'Gratuit',
+                            validite: '5 août 2025',
+                            bonus: '5% reduc prochain site'
+                        });
+                    } else {
+                        // Appliquer la réduction de 10%
+                        const originalPrice = parseInt(packPrice.replace('€', ''));
+                        const discount = Math.round(originalPrice * 0.1);
+                        const finalPrice = originalPrice - discount;
+                        
+                        showOrderModal(packName, `${finalPrice}€ (au lieu de ${originalPrice}€)`);
+                        
+                        // Logger l'action
+                        logAction('Boutique - Pack prédéfini', {
+                            pack: packName,
+                            prix_original: originalPrice,
+                            prix_final: finalPrice,
+                            reduction: discount
+                        });
+                    }
                 });
             });
 
