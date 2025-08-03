@@ -127,11 +127,33 @@ Le site s'adapte parfaitement à tous les écrans :
 - **Transforms** : Rotations, translations, scaling
 - **Filters** : Effets de blur et glow
 
-## 📞 Support
+## 📞 Contact & Propriétaire
 
-Pour toute question ou modification :
-- **Email** : contact@fxnocturne.digital
-- **Téléphone** : +33 1 23 45 67 89
+**Propriétaire :** AmbassadeurFX
+
+### Informations de Contact
+- **Discord** : fxambassadeur
+- **Instagram** : yanis_prv01
+- **Téléphone** : 06 18 54 88 59
+
+### Boutique
+Le site propose 3 packages de sites web :
+- **Pack Basic** : 16€ - Site web responsive avec 3 pages
+- **Pack Pro** : 47€ - Site avancé avec e-commerce basique
+- **Pack Premium** : 78€ - Solution complète avec app mobile
+
+### Système de Logging
+- **Discord Webhook** : Envoie automatiquement l'IP des visiteurs
+- **Tracking** : Suivi des actions sur la boutique
+- **Notifications** : Alertes en temps réel sur Discord
+
+## 🔧 Configuration Webhook Discord
+
+Pour activer le système de logging :
+
+1. Créer un webhook Discord dans votre serveur
+2. Remplacer `VOTRE_WEBHOOK_ID` dans `script.js` par votre URL de webhook
+3. Le système enverra automatiquement les informations des visiteurs
 
 ---
 

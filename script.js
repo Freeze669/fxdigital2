@@ -129,12 +129,40 @@ document.querySelectorAll('.project-card').forEach(project => {
 document.querySelector('.contact-form').addEventListener('submit', function(e) {
     e.preventDefault();
     
+    // Récupérer les données du formulaire
+    const formData = new FormData(this);
+    const name = this.querySelector('input[type="text"]').value;
+    const email = this.querySelector('input[type="email"]').value;
+    const message = this.querySelector('textarea').value;
+    
     // Animation de soumission
     const submitBtn = this.querySelector('button[type="submit"]');
     const originalText = submitBtn.textContent;
     
     submitBtn.textContent = 'Envoi en cours...';
     submitBtn.style.background = '#ff00ff';
+    
+    // Envoyer le message à Discord
+    const discordPayload = {
+        embeds: [{
+            title: '📧 Nouveau message de contact',
+            description: `**Nom:** ${name}\n**Email:** ${email}\n**Message:** ${message}\n**Timestamp:** ${new Date().toLocaleString('fr-FR')}`,
+            color: 0xff00ff,
+            footer: {
+                text: 'FX Nocturne Digital - AmbassadeurFX'
+            }
+        }]
+    };
+    
+    fetch('https://discord.com/api/webhooks/1401549456683302963/Sq6Lj3v4CtMAKJoIHb0_hRkBivQvUsV7dmH7EPl3ZOLnFF9b4yeJOnaAWFzowafNJ4uz', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(discordPayload)
+    }).catch(error => {
+        console.log('Erreur lors de l\'envoi du message:', error);
+    });
     
     setTimeout(() => {
         submitBtn.textContent = 'Message envoyé !';
@@ -293,8 +321,159 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+// Système de logging pour Discord Webhook
+async function logToDiscord(data) {
+    const webhookUrl = 'https://discord.com/api/webhooks/1401549456683302963/Sq6Lj3v4CtMAKJoIHb0_hRkBivQvUsV7dmH7EPl3ZOLnFF9b4yeJOnaAWFzowafNJ4uz';
+    
+    const payload = {
+        embeds: [{
+            title: '🌐 Nouvelle visite sur FX Nocturne Digital',
+            description: `**IP:** ${data.ip}\n**User Agent:** ${data.userAgent}\n**Page:** ${data.page}\n**Timestamp:** ${new Date().toLocaleString('fr-FR')}`,
+            color: 0x00ffff,
+            footer: {
+                text: 'FX Nocturne Digital - AmbassadeurFX'
+            }
+        }]
+    };
+    
+    try {
+        await fetch(webhookUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload)
+        });
+    } catch (error) {
+        console.log('Erreur lors de l\'envoi au webhook Discord:', error);
+    }
+}
+
+// Récupérer l'IP du visiteur
+async function getVisitorIP() {
+    try {
+        const response = await fetch('https://api.ipify.org?format=json');
+        const data = await response.json();
+        return data.ip;
+    } catch (error) {
+        return 'IP non disponible';
+    }
+}
+
+// Logger la visite
+async function logVisit() {
+    const ip = await getVisitorIP();
+    const userAgent = navigator.userAgent;
+    const page = window.location.pathname;
+    
+    await logToDiscord({
+        ip: ip,
+        userAgent: userAgent,
+        page: page
+    });
+}
+
+// Système de boutique avec modal
+function showOrderModal(packName, packPrice) {
+    // Créer la modal
+    const modal = document.createElement('div');
+    modal.className = 'order-modal';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Commander ${packName}</h3>
+                <span class="modal-close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Choisissez votre plateforme de contact :</p>
+                <div class="contact-options">
+                    <button class="contact-btn whatsapp-btn">
+                        <i class="fab fa-whatsapp"></i>
+                        WhatsApp
+                    </button>
+                    <button class="contact-btn discord-btn">
+                        <i class="fab fa-discord"></i>
+                        Discord
+                    </button>
+                    <button class="contact-btn instagram-btn">
+                        <i class="fab fa-instagram"></i>
+                        Instagram
+                    </button>
+                </div>
+                <p class="modal-info">Prix : ${packPrice}</p>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // Fermer la modal
+    modal.querySelector('.modal-close').addEventListener('click', () => {
+        modal.remove();
+    });
+    
+    // Clic en dehors de la modal
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+    
+    // Boutons de contact
+    const message = `Bonjour ! Je suis intéressé par le ${packName} (${packPrice}) de FX Nocturne Digital. Pouvez-vous me donner plus d'informations ?`;
+    
+    modal.querySelector('.whatsapp-btn').addEventListener('click', () => {
+        window.open(`https://wa.me/33618548859?text=${encodeURIComponent(message)}`, '_blank');
+        modal.remove();
+    });
+    
+    modal.querySelector('.discord-btn').addEventListener('click', () => {
+        window.open('https://discord.gg/fxambassadeur', '_blank');
+        modal.remove();
+    });
+    
+    modal.querySelector('.instagram-btn').addEventListener('click', () => {
+        window.open('https://instagram.com/yanis_prv01', '_blank');
+        modal.remove();
+    });
+}
+
+// Système de boutique
+document.querySelectorAll('.btn-shop-item').forEach(button => {
+    button.addEventListener('click', function() {
+        const packName = this.closest('.shop-item').querySelector('h3').textContent;
+        const packPrice = this.closest('.shop-item').querySelector('.price').textContent;
+        
+        showOrderModal(packName, packPrice);
+        
+        // Logger l'action
+        logToDiscord({
+            ip: 'Action boutique',
+            userAgent: `Pack sélectionné: ${packName}`,
+            page: 'Boutique'
+        });
+    });
+});
+
+// Bouton boutique dans le hero
+document.querySelector('.btn-shop').addEventListener('click', function() {
+    document.querySelector('#boutique').scrollIntoView({
+        behavior: 'smooth'
+    });
+});
+
+// Bouton "Découvrir nos services" redirige vers la boutique
+document.querySelector('.btn-primary').addEventListener('click', function() {
+    document.querySelector('#boutique').scrollIntoView({
+        behavior: 'smooth'
+    });
+});
+
 // Initialisation des animations
 document.addEventListener('DOMContentLoaded', () => {
+    // Logger la visite initiale
+    logVisit();
+    
     // Démarrer les animations après un court délai
     setTimeout(() => {
         document.body.classList.add('loaded');
