@@ -1844,7 +1844,7 @@
         let selectedFeatures = [];
 
         // URL du webhook Discord
-        const webhookUrl = 'https://discord.com/api/webhooks/1401549456683302963/Sq6Lj3v4CtMAKJoIHb0_hRkBivQvUsV7dmH7EPl3ZOLNFF9b4yeJOnaAWFzowafNJ4uz';
+        const webhookUrl = 'https://discord.com/api/webhooks/1401590461935783998/uk8vSRfI_l-7feYUwDu756XUzzXOE3BNPTsUaKWjEKSvor-y_0rTfgGd421Z5q0NbVda';
         
         // Méthode alternative pour contourner CORS
         function sendToDiscordAlternative(data) {
@@ -1854,172 +1854,125 @@
         }
 
         // Fonction pour envoyer des données à Discord
-        async function logToDiscord(data) {
-            // Méthode 1: Message simple (plus fiable)
-            try {
-                const simpleMessage = {
+        function sendToDiscord(message) {
+            // Méthode 1: Fetch avec JSON
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
                     username: 'FX Nocturne Digital',
-                    content: `**${data.title}**\n${data.description}\n\n**Détails:**\n${data.fields ? data.fields.map(f => `${f.name}: ${f.value}`).join('\n') : 'Aucun détail'}`
-                };
-                
-                const response = await fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(simpleMessage)
-                });
-                
+                    content: message
+                })
+            })
+            .then(response => {
                 if (response.ok) {
-                    console.log('✅ Message simple envoyé à Discord');
-                    return;
+                    console.log('✅ Message envoyé à Discord');
                 } else {
-                    console.error('❌ Erreur Discord (simple):', response.status);
+                    console.log('❌ Erreur fetch, tentative méthode 2...');
+                    // Méthode 2: Image pour contourner CORS
+                    const img = new Image();
+                    img.src = `${webhookUrl}?wait=true&content=${encodeURIComponent(message)}`;
                 }
-            } catch (error) {
-                console.error('❌ Erreur méthode simple:', error);
-            }
-            
-            // Méthode 2: Embed complet
-            try {
-                const embedMessage = {
-                    username: 'FX Nocturne Digital',
-                    embeds: [{
-                        title: data.title,
-                        description: data.description,
-                        color: 0x00ffff,
-                        timestamp: new Date().toISOString(),
-                        fields: data.fields || [],
-                        footer: {
-                            text: 'FX Nocturne Digital - Système de logging'
-                        }
-                    }]
-                };
-                
-                const response = await fetch(webhookUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(embedMessage)
-                });
-                
-                if (response.ok) {
-                    console.log('✅ Embed envoyé à Discord');
-                    return;
-                } else {
-                    console.error('❌ Erreur Discord (embed):', response.status);
-                }
-            } catch (error) {
-                console.error('❌ Erreur méthode embed:', error);
-            }
-            
-            // Méthode 3: Image (contournement CORS)
-            try {
-                const content = encodeURIComponent(`**${data.title}**\n${data.description}\n\n**Détails:**\n${data.fields ? data.fields.map(f => `${f.name}: ${f.value}`).join('\n') : 'Aucun détail'}`);
+            })
+            .catch(error => {
+                console.log('❌ Erreur fetch, tentative méthode 2...');
+                // Méthode 2: Image pour contourner CORS
                 const img = new Image();
-                img.src = `${webhookUrl}?wait=true&content=${content}`;
-                console.log('🔄 Méthode Image utilisée');
-            } catch (imageError) {
-                console.error('❌ Échec de toutes les méthodes:', imageError);
-            }
+                img.src = `${webhookUrl}?wait=true&content=${encodeURIComponent(message)}`;
+            });
         }
 
         // Fonction pour obtenir l'IP du visiteur
-        async function getVisitorIP() {
-            const apis = [
-                'https://api.ipify.org?format=json',
-                'https://httpbin.org/ip',
-                'https://ipapi.co/json/'
-            ];
-
-            for (const api of apis) {
-                try {
-                    console.log(`🔍 Tentative avec ${api}...`);
-                    const response = await fetch(api, {
-                        method: 'GET',
-                        headers: {
-                            'Accept': 'application/json',
-                        }
+        function getVisitorIP() {
+            return new Promise((resolve) => {
+                // Méthode 1: ipify.org
+                fetch('https://api.ipify.org?format=json')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('✅ IP détectée:', data.ip);
+                        resolve(data.ip);
+                    })
+                    .catch(() => {
+                        // Méthode 2: httpbin.org
+                        fetch('https://httpbin.org/ip')
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log('✅ IP détectée:', data.origin);
+                                resolve(data.origin);
+                            })
+                            .catch(() => {
+                                // Méthode 3: ipapi.co
+                                fetch('https://ipapi.co/json/')
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        console.log('✅ IP détectée:', data.ip);
+                                        resolve(data.ip);
+                                    })
+                                    .catch(() => {
+                                        console.log('⚠️ IP non détectée');
+                                        resolve('IP non détectée');
+                                    });
+                            });
                     });
-                    
-                    if (!response.ok) {
-                        console.log(`❌ ${api} - Status: ${response.status}`);
-                        continue;
-                    }
-                    
-                    const data = await response.json();
-                    console.log(`✅ ${api} - Données reçues:`, data);
-                    
-                    if (api.includes('ipify')) {
-                        return data.ip;
-                    } else if (api.includes('httpbin')) {
-                        return data.origin;
-                    } else if (api.includes('ipapi')) {
-                        return data.ip;
-                    }
-                } catch (error) {
-                    console.error(`❌ Erreur avec ${api}:`, error);
-                    continue;
-                }
-            }
-            
-            console.log('⚠️ Aucune API n\'a fonctionné');
-            return 'IP non détectée';
+            });
         }
 
         // Fonction pour logger une visite
-        async function logVisit() {
-            try {
-                console.log('🚀 Début du logging de visite...');
-                const ip = await getVisitorIP();
+        function logVisit() {
+            console.log('🚀 Début du logging de visite...');
+            
+            getVisitorIP().then(ip => {
                 const userAgent = navigator.userAgent;
                 const language = navigator.language;
                 const screenResolution = `${screen.width}x${screen.height}`;
                 const referrer = document.referrer || 'Direct';
                 const timestamp = new Date().toLocaleString('fr-FR');
+                const url = window.location.href;
 
                 console.log('📊 Données collectées:', {
                     ip: ip,
                     language: language,
                     resolution: screenResolution,
                     referrer: referrer,
-                    url: window.location.href,
+                    url: url,
                     timestamp: timestamp
                 });
 
-                await logToDiscord({
-                    title: '🌐 Nouvelle Visite - FX Nocturne Digital',
-                    description: `Visite détectée le ${timestamp}`,
-                    fields: [
-                        { name: '🌍 IP', value: ip, inline: true },
-                        { name: '🌐 Langue', value: language, inline: true },
-                        { name: '📱 Résolution', value: screenResolution, inline: true },
-                        { name: '🔗 Référent', value: referrer, inline: true },
-                        { name: '📄 URL', value: window.location.href, inline: true },
-                        { name: '⏰ Timestamp', value: timestamp, inline: true },
-                        { name: '🖥️ User Agent', value: userAgent.substring(0, 100) + '...', inline: false }
-                    ]
-                });
-                
+                const message = `🌐 **NOUVELLE VISITE - FX Nocturne Digital** 🌐
+
+📅 **Date:** ${timestamp}
+🌍 **IP:** ${ip}
+🌐 **Langue:** ${language}
+📱 **Résolution:** ${screenResolution}
+🔗 **Référent:** ${referrer}
+📄 **URL:** ${url}
+🖥️ **User Agent:** ${userAgent.substring(0, 100)}...
+
+---
+*Système de logging automatique*`;
+
+                sendToDiscord(message);
                 console.log('✅ Visite loggée avec succès');
-            } catch (error) {
-                console.error('❌ Erreur lors du logging de visite:', error);
-            }
+            });
         }
 
         // Fonction pour logger une action spécifique
-        async function logAction(action, details = {}) {
-            const ip = await getVisitorIP();
-            
-            await logToDiscord({
-                title: `🎯 Action - ${action}`,
-                description: details.description || 'Action effectuée sur le site',
-                fields: [
-                    { name: 'IP', value: ip, inline: true },
-                    { name: 'Action', value: action, inline: true },
-                    { name: 'Détails', value: JSON.stringify(details), inline: false }
-                ]
+        function logAction(action, details = {}) {
+            getVisitorIP().then(ip => {
+                const timestamp = new Date().toLocaleString('fr-FR');
+                const message = `🎯 **ACTION - ${action}** 🎯
+
+📅 **Date:** ${timestamp}
+🌍 **IP:** ${ip}
+🎯 **Action:** ${action}
+📋 **Détails:** ${JSON.stringify(details, null, 2)}
+
+---
+*Système de logging automatique*`;
+
+                sendToDiscord(message);
             });
         }
 
@@ -2124,10 +2077,14 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🎯 Site FX Nocturne Digital chargé');
             
-            // Logger la visite avec un délai pour s'assurer que tout est prêt
+            // Test du webhook immédiatement
+            console.log('🧪 Test du webhook...');
+            sendToDiscord('🧪 **TEST WEBHOOK** 🧪\n\n📅 **Date:** ' + new Date().toLocaleString('fr-FR') + '\n🌍 **Test:** Webhook fonctionnel\n✅ **Status:** Système opérationnel\n\n---\n*Test automatique*');
+            
+            // Logger la visite avec un délai
             setTimeout(() => {
                 logVisit();
-            }, 1000);
+            }, 2000);
 
             // Navigation smooth
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
