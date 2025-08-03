@@ -135,6 +135,9 @@ document.querySelector('.contact-form').addEventListener('submit', function(e) {
     const email = this.querySelector('input[type="email"]').value;
     const message = this.querySelector('textarea').value;
     
+    // Logger l'action de contact
+    logAction('Contact - Formulaire soumis', `Nom: ${name}, Email: ${email}`);
+    
     // Animation de soumission
     const submitBtn = this.querySelector('button[type="submit"]');
     const originalText = submitBtn.textContent;
@@ -328,7 +331,7 @@ async function logToDiscord(data) {
     const payload = {
         embeds: [{
             title: '🌐 Nouvelle visite sur FX Nocturne Digital',
-            description: `**IP:** ${data.ip}\n**User Agent:** ${data.userAgent}\n**Page:** ${data.page}\n**Timestamp:** ${new Date().toLocaleString('fr-FR')}`,
+            description: `**IP:** ${data.ip}\n**User Agent:** ${data.userAgent}\n**Page:** ${data.page}\n**Timestamp:** ${new Date().toLocaleString('fr-FR')}\n**URL:** ${window.location.href}`,
             color: 0x00ffff,
             footer: {
                 text: 'FX Nocturne Digital - AmbassadeurFX'
@@ -349,14 +352,29 @@ async function logToDiscord(data) {
     }
 }
 
-// Récupérer l'IP du visiteur
+// Récupérer l'IP du visiteur avec plusieurs méthodes
 async function getVisitorIP() {
     try {
+        // Méthode 1: ipify.org
         const response = await fetch('https://api.ipify.org?format=json');
         const data = await response.json();
         return data.ip;
     } catch (error) {
-        return 'IP non disponible';
+        try {
+            // Méthode 2: ipapi.co
+            const response2 = await fetch('https://ipapi.co/json/');
+            const data2 = await response2.json();
+            return data2.ip;
+        } catch (error2) {
+            try {
+                // Méthode 3: httpbin.org
+                const response3 = await fetch('https://httpbin.org/ip');
+                const data3 = await response3.json();
+                return data3.origin;
+            } catch (error3) {
+                return 'IP non disponible';
+            }
+        }
     }
 }
 
@@ -365,11 +383,30 @@ async function logVisit() {
     const ip = await getVisitorIP();
     const userAgent = navigator.userAgent;
     const page = window.location.pathname;
+    const referrer = document.referrer || 'Direct';
+    const screenResolution = `${screen.width}x${screen.height}`;
+    const language = navigator.language || 'Unknown';
     
     await logToDiscord({
         ip: ip,
         userAgent: userAgent,
-        page: page
+        page: page,
+        referrer: referrer,
+        screenResolution: screenResolution,
+        language: language
+    });
+}
+
+// Logger les actions spécifiques
+async function logAction(action, details = '') {
+    const ip = await getVisitorIP();
+    const userAgent = navigator.userAgent;
+    
+    await logToDiscord({
+        ip: ip,
+        userAgent: userAgent,
+        page: action,
+        details: details
     });
 }
 
@@ -438,20 +475,22 @@ function showOrderModal(packName, packPrice) {
     });
 }
 
-// Système de boutique
+// Système de boutique avec réduction
 document.querySelectorAll('.btn-shop-item').forEach(button => {
     button.addEventListener('click', function() {
         const packName = this.closest('.shop-item').querySelector('h3').textContent;
-        const packPrice = this.closest('.shop-item').querySelector('.price').textContent;
+        const originalPrice = this.closest('.shop-item').querySelector('.price').textContent;
+        
+        // Appliquer la réduction de 10%
+        const priceNumber = parseInt(originalPrice.replace('€', ''));
+        const discountedPrice = Math.round(priceNumber * 0.9);
+        
+        const packPrice = `${originalPrice} → ${discountedPrice}€ (code 2025)`;
         
         showOrderModal(packName, packPrice);
         
         // Logger l'action
-        logToDiscord({
-            ip: 'Action boutique',
-            userAgent: `Pack sélectionné: ${packName}`,
-            page: 'Boutique'
-        });
+        logAction('Boutique - Pack prédéfini', `Pack: ${packName}, Prix original: ${originalPrice}, Prix réduit: ${discountedPrice}€`);
     });
 });
 
@@ -466,6 +505,88 @@ document.querySelector('.btn-shop').addEventListener('click', function() {
 document.querySelector('.btn-primary').addEventListener('click', function() {
     document.querySelector('#boutique').scrollIntoView({
         behavior: 'smooth'
+    });
+});
+
+// Créateur de pack personnalisé
+let totalPrice = 0;
+let selectedFeatures = [];
+let discountApplied = false;
+
+function updateCustomPack() {
+    const checkboxes = document.querySelectorAll('.option-item input[type="checkbox"]:checked');
+    const radios = document.querySelectorAll('.option-item input[type="radio"]:checked');
+    const allInputs = [...checkboxes, ...radios];
+    
+    totalPrice = 0;
+    selectedFeatures = [];
+    
+    allInputs.forEach(input => {
+        const price = parseInt(input.dataset.price);
+        const feature = input.dataset.feature;
+        
+        totalPrice += price;
+        selectedFeatures.push({
+            name: feature,
+            price: price
+        });
+    });
+    
+    // Appliquer la réduction de 10% si applicable
+    let finalPrice = totalPrice;
+    let discountText = '';
+    
+    if (totalPrice > 0) {
+        const discount = Math.round(totalPrice * 0.1);
+        finalPrice = totalPrice - discount;
+        discountText = `<div class="discount-info">-10% avec le code 2025 : -${discount}€</div>`;
+    }
+    
+    // Mettre à jour l'affichage
+    const priceElement = document.getElementById('total-price');
+    if (totalPrice > 0 && finalPrice < totalPrice) {
+        priceElement.innerHTML = `<span class="original-price">${totalPrice}€</span> <span class="final-price">${finalPrice}€</span>`;
+    } else {
+        priceElement.textContent = totalPrice + '€';
+    }
+    
+    const featuresContainer = document.getElementById('selected-features');
+    const customPackBtn = document.getElementById('btn-custom-pack');
+    
+    if (selectedFeatures.length === 0) {
+        featuresContainer.innerHTML = '<p class="no-features">Aucune fonctionnalité sélectionnée</p>';
+        customPackBtn.disabled = true;
+    } else {
+        featuresContainer.innerHTML = selectedFeatures.map(feature => 
+            `<div class="feature-item">
+                <span class="feature-name">${feature.name}</span>
+                <span class="feature-price">+${feature.price}€</span>
+            </div>`
+        ).join('') + discountText;
+        customPackBtn.disabled = false;
+    }
+    
+    // Mettre à jour le prix final pour la commande
+    totalPrice = finalPrice;
+}
+
+// Écouter les changements sur les options
+document.addEventListener('DOMContentLoaded', function() {
+    const optionInputs = document.querySelectorAll('.option-item input');
+    optionInputs.forEach(input => {
+        input.addEventListener('change', updateCustomPack);
+    });
+    
+    // Bouton commander pack personnalisé
+    document.getElementById('btn-custom-pack').addEventListener('click', function() {
+        const featuresList = selectedFeatures.map(f => f.name).join(', ');
+        const message = `Bonjour ! Je souhaite commander un pack personnalisé pour ${totalPrice}€ avec les fonctionnalités suivantes : ${featuresList}. Pouvez-vous me donner plus d'informations ?`;
+        
+        // Ouvrir la modal de commande
+        showOrderModal(`Pack Personnalisé (${totalPrice}€)`, `${totalPrice}€`);
+        
+        // Logger l'action
+        logAction('Boutique - Pack personnalisé', `Prix: ${totalPrice}€, Fonctionnalités: ${featuresList}`);
     });
 });
 
