@@ -1296,6 +1296,151 @@
             cursor: not-allowed;
         }
 
+        /* Section code de réduction */
+        .discount-section {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+            border-radius: 12px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .discount-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        .discount-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .discount-header h4 {
+            color: var(--primary-color);
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .discount-info-dots {
+            display: flex;
+            gap: 2px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .discount-info-dots:hover {
+            background: rgba(0, 255, 255, 0.2);
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .discount-info-dots span {
+            color: var(--primary-color);
+            font-size: 0.8rem;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+
+        .discount-info-dots span:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .discount-info-dots span:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        .discount-input-group {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .discount-input-group input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            background: var(--bg-darker);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            color: var(--text-white);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .discount-input-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+            background: rgba(0, 255, 255, 0.05);
+        }
+
+        .discount-input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .discount-input-group button {
+            padding: 0.8rem 1.2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--bg-dark);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .discount-input-group button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+        }
+
+        .discount-input-group button:active {
+            transform: translateY(0);
+        }
+
+        #discount-message {
+            margin-top: 0.8rem;
+            font-size: 0.9rem;
+            min-height: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        #discount-message.success {
+            color: #00ff88;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        #discount-message.error {
+            color: #ff4444;
+            text-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+        }
+
+        #discount-message.info {
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
         /* Modal de commande */
         .order-modal {
             position: fixed;
@@ -1799,6 +1944,51 @@
                 font-size: 1rem;
             }
             
+            /* Section code de réduction mobile */
+            .discount-section {
+                margin: 1rem 0;
+                padding: 1rem;
+            }
+            
+            .discount-header {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+            
+            .discount-header h4 {
+                font-size: 1rem;
+            }
+            
+            .discount-info-dots {
+                align-self: flex-end;
+                padding: 3px 6px;
+            }
+            
+            .discount-info-dots span {
+                font-size: 0.7rem;
+            }
+            
+            .discount-input-group {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .discount-input-group input {
+                padding: 0.7rem 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            .discount-input-group button {
+                padding: 0.7rem 1rem;
+                font-size: 0.85rem;
+            }
+            
+            #discount-message {
+                font-size: 0.8rem;
+                margin-top: 0.5rem;
+            }
+            
             /* Footer mobile */
             .footer-content {
                 flex-direction: column;
@@ -1958,6 +2148,38 @@
             .cyber-sphere {
                 width: 150px;
                 height: 150px;
+            }
+            
+            /* Section code de réduction très petits écrans */
+            .discount-section {
+                padding: 0.8rem;
+                margin: 0.8rem 0;
+            }
+            
+            .discount-header h4 {
+                font-size: 0.9rem;
+            }
+            
+            .discount-info-dots {
+                padding: 2px 4px;
+            }
+            
+            .discount-info-dots span {
+                font-size: 0.6rem;
+            }
+            
+            .discount-input-group input {
+                padding: 0.6rem 0.7rem;
+                font-size: 0.85rem;
+            }
+            
+            .discount-input-group button {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.8rem;
+            }
+            
+            #discount-message {
+                font-size: 0.75rem;
             }
             
             .sphere-core {
@@ -2473,6 +2695,24 @@
                                     <span class="option-text">Page Équipe</span>
                                     <span class="option-price">+4€</span>
                                 </label>
+                                <label class="option-item">
+                                    <input type="checkbox" data-price="5" data-feature="Page FAQ">
+                                    <span class="checkmark"></span>
+                                    <span class="option-text">Page FAQ</span>
+                                    <span class="option-price">+5€</span>
+                                </label>
+                                <label class="option-item">
+                                    <input type="checkbox" data-price="6" data-feature="Page Témoignages">
+                                    <span class="checkmark"></span>
+                                    <span class="option-text">Page Témoignages</span>
+                                    <span class="option-price">+6€</span>
+                                </label>
+                                <label class="option-item">
+                                    <input type="checkbox" data-price="7" data-feature="Page Tarifs">
+                                    <span class="checkmark"></span>
+                                    <span class="option-text">Page Tarifs</span>
+                                    <span class="option-price">+7€</span>
+                                </label>
                             </div>
                         </div>
 
@@ -2516,11 +2756,48 @@
                                     <span class="option-price">+4€</span>
                                 </label>
                                 <label class="option-item">
-                                    <input type="checkbox" data-price="7" data-feature="Système de paiement">
+                                    <input type="checkbox" data-price="6" data-feature="Chat en direct">
                                     <span class="checkmark"></span>
-                                    <span class="option-text">Système de paiement</span>
+                                    <span class="option-text">Chat en direct</span>
+                                    <span class="option-price">+6€</span>
+                                </label>
+                                <label class="option-item">
+                                    <input type="checkbox" data-price="8" data-feature="Système de newsletter">
+                                    <span class="checkmark"></span>
+                                    <span class="option-text">Système de newsletter</span>
+                                    <span class="option-price">+8€</span>
+                                </label>
+                                <label class="option-item">
+                                    <input type="checkbox" data-price="5" data-feature="Galerie photos">
+                                    <span class="checkmark"></span>
+                                    <span class="option-text">Galerie photos</span>
+                                    <span class="option-price">+5€</span>
+                                </label>
+                                <label class="option-item">
+                                    <input type="checkbox" data-price="7" data-feature="Système de réservation">
+                                    <span class="checkmark"></span>
+                                    <span class="option-text">Système de réservation</span>
                                     <span class="option-price">+7€</span>
                                 </label>
+                                <label class="option-item">
+                                    <input type="checkbox" data-price="9" data-feature="Intégration réseaux sociaux">
+                                    <span class="checkmark"></span>
+                                    <span class="option-text">Intégration réseaux sociaux</span>
+                                    <span class="option-price">+9€</span>
+                                </label>
+                                <label class="option-item">
+                                    <input type="checkbox" data-price="6" data-feature="Système de commentaires">
+                                    <span class="checkmark"></span>
+                                    <span class="option-text">Système de commentaires</span>
+                                    <span class="option-price">+6€</span>
+                                </label>
+                                <label class="option-item">
+                                    <input type="checkbox" data-price="10" data-feature="Système de membres">
+                                    <span class="checkmark"></span>
+                                    <span class="option-text">Système de membres</span>
+                                    <span class="option-price">+10€</span>
+                                </label>
+
                             </div>
                         </div>
 
@@ -2560,6 +2837,22 @@
                         <div class="selected-features" id="selected-features">
                             <p class="no-features">Aucune fonctionnalité sélectionnée</p>
                         </div>
+                        
+                        <!-- Code de réduction -->
+                        <div class="discount-section">
+                            <div class="discount-header">
+                                <h4>Code de réduction</h4>
+                                <div class="discount-info-dots" onclick="showDiscountWarning()">
+                                    <span>•</span><span>•</span><span>•</span>
+                                </div>
+                            </div>
+                            <div class="discount-input-group">
+                                <input type="text" id="discount-code" placeholder="Entrez votre code">
+                                <button id="apply-discount">Appliquer</button>
+                            </div>
+                            <div id="discount-message"></div>
+                        </div>
+                        
                         <button class="btn-custom-pack" id="btn-custom-pack" disabled>
                             Commander Mon Pack
                         </button>
@@ -2600,6 +2893,8 @@
         // Variables globales
         let totalPrice = 0;
         let selectedFeatures = [];
+        let appliedDiscount = 0;
+        let appliedDiscountCode = '';
 
         // Fonction pour fermer la notification
         function closeNotification() {
@@ -2807,6 +3102,116 @@
             });
         }
 
+        // Fonction pour afficher l'avertissement sur les codes de réduction
+        function showDiscountWarning() {
+            const modal = document.createElement('div');
+            modal.className = 'order-modal';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 450px;">
+                    <div class="modal-header">
+                        <h3 style="color: var(--primary-color);">
+                            <i class="fas fa-info-circle" style="margin-right: 0.5rem;"></i>
+                            Information Code Promo
+                        </h3>
+                        <span class="modal-close" onclick="this.parentElement.parentElement.parentElement.remove()">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <div style="background: rgba(0, 255, 255, 0.1); border: 1px solid rgba(0, 255, 255, 0.3); border-radius: 8px; padding: 1rem; margin-bottom: 1rem;">
+                            <p style="color: var(--text-white); margin: 0; font-size: 0.95rem;">
+                                <strong style="color: var(--primary-color);">⚠️ Important :</strong> 
+                                Entrez votre code de réduction <strong>à la fin de votre commande</strong>, 
+                                après avoir sélectionné toutes vos fonctionnalités.
+                            </p>
+                        </div>
+                        <div style="background: rgba(255, 255, 0, 0.1); border: 1px solid rgba(255, 255, 0, 0.3); border-radius: 8px; padding: 1rem;">
+                            <p style="color: var(--text-white); margin: 0; font-size: 0.95rem;">
+                                <strong style="color: var(--accent-color);">🤝 Partenaires :</strong> 
+                                Des codes de réduction sont offerts chez nos partenaires pour avoir 
+                                <strong>jusqu'à 50% de réduction</strong> !
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Fermer le modal en cliquant à l'extérieur
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
+
+        // Fonction pour appliquer un code de réduction
+        function applyDiscountCode() {
+            const codeInput = document.getElementById('discount-code');
+            const messageElement = document.getElementById('discount-message');
+            const code = codeInput.value.trim().toUpperCase();
+            
+            // Codes de réduction disponibles
+            const discountCodes = {
+                'MAYU': 20
+            };
+            
+            if (code in discountCodes) {
+                const discountPercent = discountCodes[code];
+                appliedDiscount = Math.round(totalPrice * (discountPercent / 100));
+                appliedDiscountCode = code;
+                
+                messageElement.innerHTML = `<span style="color: #00ff00;">✅ Code "${code}" appliqué ! -${discountPercent}% (${appliedDiscount}€)</span>`;
+                messageElement.style.color = '#00ff00';
+                
+                // Mettre à jour l'affichage du prix
+                updatePriceDisplay();
+                
+                // Logger l'action
+                logAction('Code de réduction appliqué', {
+                    code: code,
+                    reduction: discountPercent + '%',
+                    economie: appliedDiscount + '€'
+                });
+            } else {
+                messageElement.innerHTML = `<span style="color: #ff4444;">❌ Code invalide</span>`;
+                messageElement.style.color = '#ff4444';
+                appliedDiscount = 0;
+                appliedDiscountCode = '';
+                updatePriceDisplay();
+            }
+        }
+
+        // Fonction pour mettre à jour l'affichage du prix
+        function updatePriceDisplay() {
+            const totalPriceElement = document.getElementById('total-price');
+            const originalPrice = totalPrice;
+            
+            // Appliquer la réduction par défaut de 10% si aucun code n'est appliqué
+            const defaultDiscount = appliedDiscountCode === '' ? Math.round(totalPrice * 0.1) : 0;
+            const totalDiscount = appliedDiscount + defaultDiscount;
+            const finalPrice = Math.max(0, totalPrice - totalDiscount);
+            
+            if (totalPrice > 0) {
+                let priceHTML = `<span class="original-price">${originalPrice}€</span>`;
+                
+                if (totalDiscount > 0) {
+                    priceHTML += `<span class="final-price">${finalPrice}€</span>`;
+                    if (appliedDiscount > 0) {
+                        priceHTML += `<div class="discount-info">Code "${appliedDiscountCode}" : -${appliedDiscount}€</div>`;
+                    }
+                    if (defaultDiscount > 0) {
+                        priceHTML += `<div class="discount-info">Réduction par défaut : -${defaultDiscount}€</div>`;
+                    }
+                } else {
+                    priceHTML += `<span class="final-price">${finalPrice}€</span>`;
+                }
+                
+                totalPriceElement.innerHTML = priceHTML;
+            } else {
+                totalPriceElement.textContent = '0€';
+            }
+        }
+
         // Fonction pour mettre à jour le pack personnalisé
         function updateCustomPack() {
             const checkboxes = document.querySelectorAll('.option-item input:checked');
@@ -2820,30 +3225,17 @@
                 selectedFeatures.push({ name: feature, price: price });
             });
 
-            // Appliquer la réduction de 10%
-            const originalPrice = totalPrice;
-            const discount = Math.round(totalPrice * 0.1);
-            totalPrice = totalPrice - discount;
+            // Réinitialiser la réduction appliquée
+            appliedDiscount = 0;
+            appliedDiscountCode = '';
+            document.getElementById('discount-message').innerHTML = '';
+            document.getElementById('discount-code').value = '';
 
             // Mettre à jour l'affichage
-            const totalPriceElement = document.getElementById('total-price');
             const selectedFeaturesElement = document.getElementById('selected-features');
             const btnCustomPack = document.getElementById('btn-custom-pack');
 
-            if (totalPrice > 0) {
-                totalPriceElement.innerHTML = `
-                    <span class="original-price">${originalPrice}€</span>
-                    <span class="final-price">${totalPrice}€</span>
-                `;
-                
-                // Ajouter l'info de réduction
-                const discountInfo = document.createElement('div');
-                discountInfo.className = 'discount-info';
-                discountInfo.textContent = `Économisez ${discount}€ avec le code 2025 !`;
-                totalPriceElement.appendChild(discountInfo);
-            } else {
-                totalPriceElement.textContent = '0€';
-            }
+            updatePriceDisplay();
 
             if (selectedFeatures.length > 0) {
                 selectedFeaturesElement.innerHTML = selectedFeatures.map(feature => 
@@ -3005,14 +3397,43 @@
             // Bouton de commande du pack personnalisé
             document.getElementById('btn-custom-pack').addEventListener('click', function() {
                 if (selectedFeatures.length > 0) {
-                    showOrderModal('Pack Personnalisé', `${totalPrice}€`);
+                    const defaultDiscount = appliedDiscountCode === '' ? Math.round(totalPrice * 0.1) : 0;
+                    const totalDiscount = appliedDiscount + defaultDiscount;
+                    const finalPrice = Math.max(0, totalPrice - totalDiscount);
+                    const priceText = totalDiscount > 0 ? 
+                        `${finalPrice}€ (au lieu de ${totalPrice}€)` : 
+                        `${finalPrice}€`;
+                    
+                    showOrderModal('Pack Personnalisé', priceText);
                     
                     // Logger l'action
                     logAction('Boutique - Pack personnalisé', {
                         prix_total: totalPrice,
+                        prix_final: finalPrice,
+                        reduction_appliquee: totalDiscount,
+                        code_reduction: appliedDiscountCode,
                         fonctionnalites: selectedFeatures.map(f => f.name),
                         nombre_fonctionnalites: selectedFeatures.length
                     });
+                }
+            });
+
+            // Bouton pour appliquer le code de réduction
+            document.getElementById('apply-discount').addEventListener('click', applyDiscountCode);
+
+            // Entrée pour appliquer le code de réduction
+            document.getElementById('discount-code').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    applyDiscountCode();
+                }
+            });
+
+            // Application automatique du code de réduction pendant la saisie
+            document.getElementById('discount-code').addEventListener('input', function(e) {
+                const code = e.target.value.trim().toUpperCase();
+                if (code === 'MAYU') {
+                    // Appliquer automatiquement le code MAYU
+                    applyDiscountCode();
                 }
             });
 
