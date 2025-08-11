@@ -30,6 +30,531 @@
             --neon-glow-yellow: 0 0 20px rgba(255, 255, 0, 0.5);
         }
 
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--bg-dark), var(--bg-darker));
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            overflow: hidden;
+        }
+
+        .loading-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 255, 0, 0.05) 0%, transparent 50%);
+            animation: backgroundShift 8s ease-in-out infinite;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(180deg); }
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-container {
+            text-align: center;
+            max-width: 500px;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .loading-logo {
+            margin-bottom: 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .loading-logo-text {
+            font-family: 'Orbitron', monospace;
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            text-shadow: var(--neon-glow);
+            display: block;
+            animation: neonPulse 2s ease-in-out infinite alternate;
+            margin-bottom: 0.5rem;
+        }
+
+        .loading-logo-subtitle {
+            font-size: 1rem;
+            color: var(--text-gray);
+            letter-spacing: 3px;
+            display: block;
+            margin-top: 0.5rem;
+        }
+
+        .loading-spinner {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            align-self: center;
+        }
+
+        .spinner-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 3px solid transparent;
+            border-top: 3px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        .spinner-ring:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            animation-duration: 1s;
+        }
+
+        .spinner-ring:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            animation-duration: 1.5s;
+            animation-direction: reverse;
+            border-top-color: var(--secondary-color);
+        }
+
+        .spinner-ring:nth-child(3) {
+            width: 40px;
+            height: 40px;
+            animation-duration: 2s;
+            border-top-color: var(--accent-color);
+        }
+
+        .loading-text {
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .loading-title {
+            font-size: 1.5rem;
+            color: var(--text-white);
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .loading-subtitle {
+            font-size: 1rem;
+            color: var(--text-gray);
+            display: block;
+        }
+
+        .loading-progress {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+        }
+
+        .progress-bar {
+            width: 300px;
+            height: 8px;
+            background: var(--bg-light);
+            border-radius: 4px;
+            overflow: hidden;
+            border: 1px solid var(--primary-color);
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.3), transparent);
+            animation: progressShimmer 2s ease-in-out infinite;
+        }
+
+        @keyframes progressShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .progress-text {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: var(--bg-darker);
+            border-left: 2px solid var(--secondary-color);
+            z-index: 9999;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+            backdrop-filter: blur(10px);
+        }
+
+        .admin-panel.active {
+            right: 0;
+        }
+
+        .admin-header {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--secondary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-header-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .admin-header h3 {
+            color: var(--text-white);
+            margin: 0;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-header h3 i {
+            color: var(--secondary-color);
+        }
+
+        .admin-close {
+            background: none;
+            border: none;
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .admin-close:hover {
+            background: rgba(255, 0, 255, 0.1);
+            transform: scale(1.1);
+        }
+
+        .admin-logout {
+            background: none;
+            border: none;
+            color: #ff4444;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .admin-logout:hover {
+            background: rgba(255, 68, 68, 0.1);
+            transform: scale(1.1);
+        }
+
+        .admin-content {
+            padding: 1.5rem;
+        }
+
+        .admin-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--bg-light);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 0, 255, 0.2);
+        }
+
+        .admin-section h4 {
+            color: var(--text-white);
+            margin: 0 0 1rem 0;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .admin-section h4 i {
+            color: var(--secondary-color);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-darker);
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            text-shadow: var(--neon-glow);
+            margin-bottom: 0.5rem;
+            text-align: center;
+            width: 100%;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+            text-align: center;
+            width: 100%;
+        }
+
+        .visitors-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .visitor-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem;
+            background: var(--bg-darker);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+        }
+
+        .visitor-info {
+            flex: 1;
+        }
+
+        .visitor-ip {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .visitor-time {
+            color: var(--text-gray);
+            font-size: 0.8rem;
+        }
+
+        .no-visitors {
+            text-align: center;
+            color: var(--text-gray);
+            font-style: italic;
+            padding: 2rem;
+        }
+
+        .config-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .config-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 6px;
+            transition: background 0.3s ease;
+        }
+
+        .config-item:hover {
+            background: rgba(255, 0, 255, 0.1);
+        }
+
+        .config-item input {
+            display: none;
+        }
+
+        .config-item .checkmark {
+            width: 18px;
+            height: 18px;
+            border: 2px solid var(--secondary-color);
+            border-radius: 4px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .config-item input:checked + .checkmark {
+            background: var(--secondary-color);
+        }
+
+        .config-item input:checked + .checkmark::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--bg-dark);
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .config-item span:last-child {
+            color: var(--text-white);
+            font-size: 0.9rem;
+        }
+
+        .admin-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .admin-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--bg-dark);
+            border: none;
+            padding: 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .admin-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+        }
+
+        .admin-btn i {
+            font-size: 1rem;
+        }
+
+        /* Graphiques */
+        .charts-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .chart-item {
+            background: var(--bg-darker);
+            border-radius: 8px;
+            padding: 1rem;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        .chart-item h5 {
+            color: var(--primary-color);
+            margin: 0 0 1rem 0;
+            font-size: 1rem;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        .chart {
+            position: relative;
+            margin-bottom: 1rem;
+            background: var(--bg-dark);
+            border-radius: 6px;
+            padding: 0.5rem;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+        }
+
+        .chart canvas {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .chart-stats {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .chart-stat {
+            color: var(--text-gray);
+            font-size: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .chart-stat span:last-child {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 0.2rem;
+        }
+
         body {
             font-family: 'Rajdhani', sans-serif;
             background: var(--bg-dark);
@@ -245,6 +770,45 @@
             margin-left: 1rem;
             transition: all 0.3s ease;
             position: relative;
+        }
+
+        /* Admin Icon */
+        .admin-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 0, 255, 0.1);
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            margin-left: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .admin-icon:hover {
+            background: rgba(255, 0, 255, 0.2);
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+            transform: scale(1.1);
+        }
+
+        .admin-icon i {
+            color: var(--secondary-color);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .admin-icon:hover i {
+            color: var(--text-white);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .bell-icon:hover {
@@ -1768,6 +2332,91 @@
                 border-top: 1px solid var(--primary-color);
             }
             
+            /* Admin Panel mobile */
+            .admin-panel {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .admin-panel.active {
+                right: 0;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+            
+            .stat-item {
+                padding: 0.8rem;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+            
+            /* Graphiques mobile */
+            .charts-container {
+                gap: 1rem;
+            }
+            
+            .chart-item {
+                padding: 0.8rem;
+            }
+            
+            .chart-item h5 {
+                font-size: 0.9rem;
+            }
+            
+            .chart canvas {
+                height: 120px;
+            }
+            
+            .chart-stats {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            /* Loading Screen mobile */
+            .loading-container {
+                padding: 1rem;
+                max-width: 90%;
+                border-radius: 15px;
+            }
+            
+            .loading-logo-text {
+                font-size: 3rem;
+            }
+            
+            .progress-bar {
+                width: 250px;
+            }
+            
+            .loading-spinner {
+                width: 100px;
+                height: 100px;
+                margin-bottom: 2rem;
+            }
+            
+            .loading-screen::before {
+                animation-duration: 6s;
+            }
+            
+            .spinner-ring:nth-child(1) {
+                width: 70px;
+                height: 70px;
+            }
+            
+            .spinner-ring:nth-child(2) {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .spinner-ring:nth-child(3) {
+                width: 30px;
+                height: 30px;
+            }
+            
             .nav-menu.active {
                 display: flex;
             }
@@ -2329,6 +2978,31 @@
     </style>
 </head>
 <body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-container">
+            <div class="loading-logo">
+                <span class="loading-logo-text">FX</span>
+                <span class="loading-logo-subtitle">NOCTURNE</span>
+            </div>
+            <div class="loading-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+            </div>
+            <div class="loading-text">
+                <span class="loading-title">Chargement en cours...</span>
+                <span class="loading-subtitle">Préparation de votre expérience digitale</span>
+            </div>
+            <div class="loading-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <span class="progress-text" id="progress-text">0%</span>
+            </div>
+        </div>
+    </div>
+
     <!-- Update Notification -->
     <div class="update-notification" id="update-notification">
         <div class="notification-content">
@@ -2358,6 +3032,9 @@
             <div class="bell-icon" onclick="showUpdateNotification()">
                 <i class="fas fa-bell"></i>
             </div>
+            <div class="admin-icon" onclick="toggleAdminPanel()" title="Panel Admin">
+                <i class="fas fa-cog"></i>
+            </div>
             <div class="hamburger">
                 <span></span>
                 <span></span>
@@ -2365,6 +3042,123 @@
             </div>
         </div>
     </nav>
+
+    <!-- Admin Panel -->
+    <div id="admin-panel" class="admin-panel">
+        <div class="admin-header">
+            <h3><i class="fas fa-shield-alt"></i> Panel Administrateur</h3>
+            <div class="admin-header-actions">
+                <button class="admin-logout" onclick="logoutAdmin()" title="Se déconnecter">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+                <button class="admin-close" onclick="toggleAdminPanel()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        <div class="admin-content">
+            <div class="admin-section">
+                <h4><i class="fas fa-chart-line"></i> Statistiques</h4>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-number" id="total-visits">0</div>
+                        <div class="stat-label">Visites totales</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="today-visits">0</div>
+                        <div class="stat-label">Visites aujourd'hui</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="total-orders">0</div>
+                        <div class="stat-label">Commandes</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="total-revenue">847.65€</div>
+                        <div class="stat-label">Revenus</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-section">
+                <h4><i class="fas fa-chart-area"></i> Graphiques de Performance</h4>
+                <div class="charts-container">
+                    <div class="chart-item">
+                        <h5>FPS du Serveur</h5>
+                        <div class="chart" id="fps-chart">
+                            <canvas id="fps-canvas" width="300" height="150"></canvas>
+                        </div>
+                        <div class="chart-stats">
+                            <span class="chart-stat">Actuel: <span id="current-fps">60</span> FPS</span>
+                            <span class="chart-stat">Moyenne: <span id="avg-fps">58</span> FPS</span>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <h5>Évolution des Visites</h5>
+                        <div class="chart" id="visits-chart">
+                            <canvas id="visits-canvas" width="300" height="150"></canvas>
+                        </div>
+                        <div class="chart-stats">
+                            <span class="chart-stat">Aujourd'hui: <span id="today-visits-chart">0</span></span>
+                            <span class="chart-stat">Cette semaine: <span id="week-visits">0</span></span>
+                        </div>
+                    </div>
+                    <div class="chart-item">
+                        <h5>Revenus Mensuels</h5>
+                        <div class="chart" id="revenue-chart">
+                            <canvas id="revenue-canvas" width="300" height="150"></canvas>
+                        </div>
+                        <div class="chart-stats">
+                            <span class="chart-stat">Ce mois: <span id="month-revenue">847.65€</span></span>
+                            <span class="chart-stat">Total: <span id="total-revenue-chart">847.65€</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-section">
+                <h4><i class="fas fa-users"></i> Visiteurs récents</h4>
+                <div class="visitors-list" id="visitors-list">
+                    <div class="no-visitors">Aucun visiteur récent</div>
+                </div>
+            </div>
+            
+            <div class="admin-section">
+                <h4><i class="fas fa-cog"></i> Configuration</h4>
+                <div class="config-options">
+                    <label class="config-item">
+                        <input type="checkbox" id="auto-logging" checked>
+                        <span class="checkmark"></span>
+                        <span>Logging automatique</span>
+                    </label>
+                    <label class="config-item">
+                        <input type="checkbox" id="discord-notifications" checked>
+                        <span class="checkmark"></span>
+                        <span>Notifications Discord</span>
+                    </label>
+                    <label class="config-item">
+                        <input type="checkbox" id="analytics-tracking" checked>
+                        <span class="checkmark"></span>
+                        <span>Suivi analytique</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="admin-section">
+                <h4><i class="fas fa-database"></i> Actions</h4>
+                <div class="admin-actions">
+                    <button class="admin-btn" onclick="exportData()">
+                        <i class="fas fa-download"></i> Exporter les données
+                    </button>
+                    <button class="admin-btn" onclick="clearData()">
+                        <i class="fas fa-trash"></i> Effacer les données
+                    </button>
+                    <button class="admin-btn" onclick="testWebhook()">
+                        <i class="fas fa-paper-plane"></i> Tester webhook
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Section Hero -->
     <section id="accueil" class="hero">
@@ -2895,6 +3689,555 @@
         let selectedFeatures = [];
         let appliedDiscount = 0;
         let appliedDiscountCode = '';
+        
+        // Variables admin
+        let adminPanelOpen = false;
+        let adminAuthenticated = false;
+        let adminAccessCode = 'FX2024ADMIN'; // Code d'accès admin
+        let visitStats = {
+            total: 0,
+            today: 0,
+            orders: 0,
+            revenue: 847.65
+        };
+        let recentVisitors = [];
+        let adminConfig = {
+            autoLogging: true,
+            discordNotifications: true,
+            analyticsTracking: true
+        };
+        
+        // Données des graphiques
+        let fpsData = {
+            current: 60,
+            average: 58,
+            history: [60, 58, 62, 59, 61, 57, 60, 58, 63, 59, 61, 58, 60, 62, 59]
+        };
+        
+        let visitsData = {
+            today: 0,
+            week: 0,
+            history: [12, 15, 8, 20, 18, 25, 22, 19, 16, 14, 21, 17, 23, 20, 18]
+        };
+        
+        let revenueData = {
+            month: 847.65,
+            total: 847.65,
+            history: [150, 200, 180, 300, 250, 400, 350, 500, 450, 600, 550, 700, 650, 800, 847.65]
+        };
+
+        // Fonction pour l'écran de chargement
+        function startLoading() {
+            const loadingScreen = document.getElementById('loading-screen');
+            const progressFill = document.getElementById('progress-fill');
+            const progressText = document.getElementById('progress-text');
+            
+            let progress = 0;
+            const minTime = 8000; // Temps minimum de 8 secondes
+            const startTime = Date.now();
+            
+            const interval = setInterval(() => {
+                const elapsed = Date.now() - startTime;
+                const timeProgress = Math.min((elapsed / minTime) * 100, 100);
+                
+                // Progression plus lente et réaliste
+                progress += Math.random() * 8 + 2; // Entre 2 et 10%
+                
+                // Ne pas dépasser la progression temporelle
+                if (progress > timeProgress) {
+                    progress = timeProgress;
+                }
+                
+                if (progress > 100) progress = 100;
+                
+                progressFill.style.width = progress + '%';
+                progressText.textContent = Math.round(progress) + '%';
+                
+                // Attendre au moins 8 secondes avant de terminer
+                if (progress >= 100 && elapsed >= minTime) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        loadingScreen.classList.add('hidden');
+                        setTimeout(() => {
+                            loadingScreen.style.display = 'none';
+                        }, 800);
+                    }, 800);
+                }
+            }, 300); // Plus lent : 300ms au lieu de 200ms
+        }
+
+        // Fonction pour ouvrir/fermer le panel admin
+        function toggleAdminPanel() {
+            if (!adminAuthenticated) {
+                showAdminLogin();
+                return;
+            }
+            
+            const adminPanel = document.getElementById('admin-panel');
+            adminPanelOpen = !adminPanelOpen;
+            
+            if (adminPanelOpen) {
+                adminPanel.classList.add('active');
+                updateAdminStats();
+                loadRecentVisitors();
+            } else {
+                adminPanel.classList.remove('active');
+            }
+        }
+
+        // Fonction pour afficher la connexion admin
+        function showAdminLogin() {
+            const modal = document.createElement('div');
+            modal.className = 'order-modal';
+            modal.innerHTML = `
+                <div class="modal-content" style="max-width: 400px;">
+                    <div class="modal-header">
+                        <h3 style="color: var(--secondary-color);">
+                            <i class="fas fa-shield-alt" style="margin-right: 0.5rem;"></i>
+                            Accès Administrateur
+                        </h3>
+                        <span class="modal-close" onclick="this.parentElement.parentElement.remove()">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <div style="background: rgba(255, 0, 255, 0.1); border: 1px solid rgba(255, 0, 255, 0.3); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
+                            <p style="color: var(--text-white); margin: 0; font-size: 0.95rem;">
+                                <strong style="color: var(--secondary-color);">🔒 Accès restreint :</strong> 
+                                Seuls les administrateurs autorisés peuvent accéder au panel.
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" id="admin-password" placeholder="Code d'accès administrateur" style="width: 100%; padding: 1rem; background: var(--bg-darker); border: 1px solid var(--secondary-color); border-radius: 8px; color: var(--text-white); font-family: inherit; font-size: 1rem;">
+                        </div>
+                        <div id="admin-login-message" style="margin: 1rem 0; min-height: 1.2rem;"></div>
+                        <button class="admin-btn" onclick="authenticateAdmin()" style="width: 100%;">
+                            <i class="fas fa-unlock"></i> Accéder au Panel
+                        </button>
+                        <div style="text-align: center; margin-top: 1rem;">
+                            <small style="color: var(--text-gray); font-size: 0.8rem;">
+                                <i class="fas fa-info-circle"></i> 
+                                Contactez l'administrateur principal pour obtenir le code
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(modal);
+            
+            // Focus sur le champ de mot de passe
+            setTimeout(() => {
+                document.getElementById('admin-password').focus();
+            }, 100);
+            
+            // Gérer la touche Entrée
+            document.getElementById('admin-password').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    authenticateAdmin();
+                }
+            });
+            
+            // Fermer le modal en cliquant à l'extérieur
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    document.body.removeChild(modal);
+                }
+            });
+        }
+
+        // Fonction pour authentifier l'administrateur
+        function authenticateAdmin() {
+            const password = document.getElementById('admin-password').value;
+            const messageElement = document.getElementById('admin-login-message');
+            
+            if (password === adminAccessCode) {
+                adminAuthenticated = true;
+                messageElement.innerHTML = '<span style="color: #00ff00;">✅ Accès autorisé ! Redirection...</span>';
+                messageElement.style.color = '#00ff00';
+                
+                // Sauvegarder l'authentification
+                localStorage.setItem('fx_admin_auth', 'true');
+                localStorage.setItem('fx_admin_auth_time', Date.now().toString());
+                
+                // Fermer le modal et ouvrir le panel
+                setTimeout(() => {
+                    document.querySelector('.order-modal').remove();
+                    toggleAdminPanel();
+                }, 1000);
+                
+                // Logger l'accès admin
+                logAction('Admin - Connexion réussie', {
+                    timestamp: new Date().toLocaleString('fr-FR'),
+                    ip: 'Admin local'
+                });
+                
+            } else {
+                messageElement.innerHTML = '<span style="color: #ff4444;">❌ Code d\'accès incorrect</span>';
+                messageElement.style.color = '#ff4444';
+                
+                // Logger la tentative d'accès échouée
+                logAction('Admin - Tentative d\'accès échouée', {
+                    timestamp: new Date().toLocaleString('fr-FR'),
+                    ip: 'Tentative locale'
+                });
+                
+                // Effacer le champ
+                document.getElementById('admin-password').value = '';
+                document.getElementById('admin-password').focus();
+            }
+        }
+
+        // Fonction pour mettre à jour les statistiques admin
+        function updateAdminStats() {
+            document.getElementById('total-visits').textContent = visitStats.total;
+            document.getElementById('today-visits').textContent = visitStats.today;
+            document.getElementById('total-orders').textContent = visitStats.orders;
+            document.getElementById('total-revenue').textContent = visitStats.revenue + '€';
+            
+            // Mettre à jour les données des graphiques
+            visitsData.today = visitStats.today;
+            visitsData.week = Math.min(visitStats.total, 100); // Simulation des visites de la semaine
+            revenueData.total = visitStats.revenue;
+            
+            // Mettre à jour tous les graphiques
+            updateAllCharts();
+        }
+
+        // Fonction pour charger les visiteurs récents
+        function loadRecentVisitors() {
+            const visitorsList = document.getElementById('visitors-list');
+            
+            if (recentVisitors.length === 0) {
+                visitorsList.innerHTML = '<div class="no-visitors">Aucun visiteur récent</div>';
+                return;
+            }
+            
+            visitorsList.innerHTML = recentVisitors.slice(0, 5).map(visitor => `
+                <div class="visitor-item">
+                    <div class="visitor-info">
+                        <div class="visitor-ip">${visitor.ip}</div>
+                        <div class="visitor-time">${visitor.time}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Fonction pour ajouter un visiteur
+        function addVisitor(ip) {
+            const visitor = {
+                ip: ip,
+                time: new Date().toLocaleString('fr-FR')
+            };
+            
+            recentVisitors.unshift(visitor);
+            if (recentVisitors.length > 10) {
+                recentVisitors.pop();
+            }
+            
+            visitStats.total++;
+            visitStats.today++;
+            
+            // Sauvegarder dans localStorage
+            localStorage.setItem('fx_admin_stats', JSON.stringify(visitStats));
+            localStorage.setItem('fx_recent_visitors', JSON.stringify(recentVisitors));
+        }
+
+        // Fonction pour exporter les données
+        function exportData() {
+            const data = {
+                stats: visitStats,
+                visitors: recentVisitors,
+                config: adminConfig,
+                exportDate: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `fx_admin_data_${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Fonction pour effacer les données
+        function clearData() {
+            if (confirm('Êtes-vous sûr de vouloir effacer toutes les données ?')) {
+                visitStats = { total: 0, today: 0, orders: 0, revenue: 847.65 };
+                recentVisitors = [];
+                localStorage.removeItem('fx_admin_stats');
+                localStorage.removeItem('fx_recent_visitors');
+                updateAdminStats();
+                loadRecentVisitors();
+            }
+        }
+
+        // Fonction pour tester le webhook
+        function testWebhook() {
+            sendToDiscord('🧪 **TEST ADMIN PANEL** 🧪\n\n📅 **Date:** ' + new Date().toLocaleString('fr-FR') + '\n🔧 **Action:** Test depuis le panel admin\n✅ **Status:** Webhook testé avec succès\n\n---\n*Test manuel*');
+        }
+
+        // Fonction pour se déconnecter du panel admin
+        function logoutAdmin() {
+            if (confirm('Êtes-vous sûr de vouloir vous déconnecter du panel administrateur ?')) {
+                adminAuthenticated = false;
+                adminPanelOpen = false;
+                
+                // Fermer le panel
+                const adminPanel = document.getElementById('admin-panel');
+                adminPanel.classList.remove('active');
+                
+                // Supprimer l'authentification
+                localStorage.removeItem('fx_admin_auth');
+                localStorage.removeItem('fx_admin_auth_time');
+                
+                // Logger la déconnexion
+                logAction('Admin - Déconnexion', {
+                    timestamp: new Date().toLocaleString('fr-FR'),
+                    ip: 'Admin local'
+                });
+                
+                // Notification de déconnexion
+                showUpdateNotification();
+            }
+        }
+
+        // Fonction pour dessiner le graphique FPS
+        function drawFPSChart() {
+            const canvas = document.getElementById('fps-canvas');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            // Effacer le canvas
+            ctx.clearRect(0, 0, width, height);
+            
+            // Dessiner la grille
+            ctx.strokeStyle = 'rgba(0, 255, 255, 0.1)';
+            ctx.lineWidth = 1;
+            
+            // Lignes horizontales
+            for (let i = 0; i <= 4; i++) {
+                const y = (height / 4) * i;
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+            
+            // Lignes verticales
+            for (let i = 0; i <= 14; i++) {
+                const x = (width / 14) * i;
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+            }
+            
+            // Dessiner la ligne FPS
+            ctx.strokeStyle = '#00ffff';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            
+            fpsData.history.forEach((fps, index) => {
+                const x = (width / 14) * index;
+                const y = height - (fps / 70) * height; // Normaliser sur 70 FPS max
+                
+                if (index === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            
+            ctx.stroke();
+            
+            // Ajouter des points
+            ctx.fillStyle = '#00ffff';
+            fpsData.history.forEach((fps, index) => {
+                const x = (width / 14) * index;
+                const y = height - (fps / 70) * height;
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+        }
+
+        // Fonction pour dessiner le graphique des visites
+        function drawVisitsChart() {
+            const canvas = document.getElementById('visits-canvas');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            // Effacer le canvas
+            ctx.clearRect(0, 0, width, height);
+            
+            // Dessiner la grille
+            ctx.strokeStyle = 'rgba(255, 0, 255, 0.1)';
+            ctx.lineWidth = 1;
+            
+            // Lignes horizontales
+            for (let i = 0; i <= 4; i++) {
+                const y = (height / 4) * i;
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+            
+            // Lignes verticales
+            for (let i = 0; i <= 14; i++) {
+                const x = (width / 14) * i;
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+            }
+            
+            // Trouver le maximum pour normaliser
+            const maxVisits = Math.max(...visitsData.history);
+            
+            // Dessiner la ligne des visites
+            ctx.strokeStyle = '#ff00ff';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            
+            visitsData.history.forEach((visits, index) => {
+                const x = (width / 14) * index;
+                const y = height - (visits / maxVisits) * height;
+                
+                if (index === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            
+            ctx.stroke();
+            
+            // Ajouter des points
+            ctx.fillStyle = '#ff00ff';
+            visitsData.history.forEach((visits, index) => {
+                const x = (width / 14) * index;
+                const y = height - (visits / maxVisits) * height;
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+        }
+
+        // Fonction pour dessiner le graphique des revenus
+        function drawRevenueChart() {
+            const canvas = document.getElementById('revenue-canvas');
+            if (!canvas) return;
+            
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+            
+            // Effacer le canvas
+            ctx.clearRect(0, 0, width, height);
+            
+            // Dessiner la grille
+            ctx.strokeStyle = 'rgba(255, 255, 0, 0.1)';
+            ctx.lineWidth = 1;
+            
+            // Lignes horizontales
+            for (let i = 0; i <= 4; i++) {
+                const y = (height / 4) * i;
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+                ctx.stroke();
+            }
+            
+            // Lignes verticales
+            for (let i = 0; i <= 14; i++) {
+                const x = (width / 14) * i;
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height);
+                ctx.stroke();
+            }
+            
+            // Trouver le maximum pour normaliser
+            const maxRevenue = Math.max(...revenueData.history);
+            
+            // Dessiner la ligne des revenus
+            ctx.strokeStyle = '#ffff00';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            
+            revenueData.history.forEach((revenue, index) => {
+                const x = (width / 14) * index;
+                const y = height - (revenue / maxRevenue) * height;
+                
+                if (index === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+            
+            ctx.stroke();
+            
+            // Ajouter des points
+            ctx.fillStyle = '#ffff00';
+            revenueData.history.forEach((revenue, index) => {
+                const x = (width / 14) * index;
+                const y = height - (revenue / maxRevenue) * height;
+                
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, 2 * Math.PI);
+                ctx.fill();
+            });
+        }
+
+        // Fonction pour mettre à jour tous les graphiques
+        function updateAllCharts() {
+            drawFPSChart();
+            drawVisitsChart();
+            drawRevenueChart();
+            
+            // Mettre à jour les statistiques des graphiques
+            document.getElementById('current-fps').textContent = fpsData.current;
+            document.getElementById('avg-fps').textContent = fpsData.average;
+            document.getElementById('today-visits-chart').textContent = visitsData.today;
+            document.getElementById('week-visits').textContent = visitsData.week;
+            document.getElementById('month-revenue').textContent = revenueData.month + '€';
+            document.getElementById('total-revenue-chart').textContent = revenueData.total + '€';
+        }
+
+        // Fonction pour démarrer la simulation des FPS
+        function startFPSSimulation() {
+            setInterval(() => {
+                // Simuler des variations de FPS réalistes
+                const variation = (Math.random() - 0.5) * 6; // ±3 FPS
+                fpsData.current = Math.max(55, Math.min(65, 60 + variation));
+                
+                // Mettre à jour l'historique
+                fpsData.history.push(fpsData.current);
+                if (fpsData.history.length > 15) {
+                    fpsData.history.shift();
+                }
+                
+                // Calculer la moyenne
+                fpsData.average = Math.round(
+                    fpsData.history.reduce((sum, fps) => sum + fps, 0) / fpsData.history.length
+                );
+                
+                // Mettre à jour les graphiques si le panel est ouvert
+                if (adminPanelOpen) {
+                    updateAllCharts();
+                }
+            }, 2000); // Mise à jour toutes les 2 secondes
+        }
 
         // Fonction pour fermer la notification
         function closeNotification() {
@@ -3021,6 +4364,9 @@
                     timestamp: timestamp
                 });
 
+                // Ajouter le visiteur aux statistiques admin
+                addVisitor(ip);
+
                 const message = `🌐 **NOUVELLE VISITE - FX Nocturne Digital** 🌐
 
 📅 **Date:** ${timestamp}
@@ -3034,7 +4380,9 @@
 ---
 *Système de logging automatique*`;
 
+                if (adminConfig.discordNotifications) {
                 sendToDiscord(message);
+                }
                 console.log('✅ Visite loggée avec succès');
             });
         }
@@ -3043,6 +4391,24 @@
         function logAction(action, details = {}) {
             getVisitorIP().then(ip => {
                 const timestamp = new Date().toLocaleString('fr-FR');
+                
+                // Mettre à jour les statistiques si c'est une commande
+                if (action.includes('Commande') || action.includes('Pack')) {
+                    visitStats.orders++;
+                    if (details.prix_final) {
+                        const price = parseInt(details.prix_final);
+                        if (!isNaN(price)) {
+                            visitStats.revenue += price;
+                        }
+                    } else if (details.prix) {
+                        const price = parseInt(details.prix);
+                        if (!isNaN(price)) {
+                            visitStats.revenue += price;
+                        }
+                    }
+                    localStorage.setItem('fx_admin_stats', JSON.stringify(visitStats));
+                }
+                
                 const message = `🎯 **ACTION - ${action}** 🎯
 
 📅 **Date:** ${timestamp}
@@ -3053,7 +4419,9 @@
 ---
 *Système de logging automatique*`;
 
+                if (adminConfig.discordNotifications) {
                 sendToDiscord(message);
+                }
             });
         }
 
@@ -3255,6 +4623,24 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('🎯 Site FX Nocturne Digital chargé');
             
+            // Charger les données admin depuis localStorage
+            const savedStats = localStorage.getItem('fx_admin_stats');
+            const savedVisitors = localStorage.getItem('fx_recent_visitors');
+            
+            if (savedStats) {
+                visitStats = JSON.parse(savedStats);
+            }
+            
+            // S'assurer que les revenus sont toujours à 847.65€
+            visitStats.revenue = 847.65;
+            
+            if (savedVisitors) {
+                recentVisitors = JSON.parse(savedVisitors);
+            }
+            
+            // Démarrer l'écran de chargement
+            startLoading();
+            
                         // Gestion de la notification popup - masquée par défaut
             const updateNotification = document.querySelector('.update-notification');
             if (updateNotification) {
@@ -3309,6 +4695,16 @@
                     navMenu.classList.remove('active');
                 });
             });
+            
+            // Fermer le panel admin en cliquant à l'extérieur
+            document.addEventListener('click', function(e) {
+                const adminPanel = document.getElementById('admin-panel');
+                const adminIcon = document.querySelector('.admin-icon');
+                
+                if (adminPanelOpen && !adminPanel.contains(e.target) && !adminIcon.contains(e.target)) {
+                    toggleAdminPanel();
+                }
+            });
 
             // Boutons de navigation
             document.querySelector('.btn-primary').addEventListener('click', function() {
@@ -3339,7 +4735,8 @@
                             pack: packName,
                             prix: 'Gratuit',
                             validite: '5 août 2025',
-                            bonus: '5% reduc prochain site'
+                            bonus: '5% reduc prochain site',
+                            prix_final: 0
                         });
                     } else {
                         // Appliquer la réduction de 10%
@@ -3354,7 +4751,8 @@
                             pack: packName,
                             prix_original: originalPrice,
                             prix_final: finalPrice,
-                            reduction: discount
+                            reduction: discount,
+                            prix: finalPrice
                         });
                     }
                 });
@@ -3413,7 +4811,8 @@
                         reduction_appliquee: totalDiscount,
                         code_reduction: appliedDiscountCode,
                         fonctionnalites: selectedFeatures.map(f => f.name),
-                        nombre_fonctionnalites: selectedFeatures.length
+                            nombre_fonctionnalites: selectedFeatures.length,
+                            prix: finalPrice
                     });
                 }
             });
@@ -3427,6 +4826,62 @@
                     applyDiscountCode();
                 }
             });
+            
+            // Gestion des événements du panel admin
+            document.getElementById('auto-logging').addEventListener('change', function(e) {
+                adminConfig.autoLogging = e.target.checked;
+                localStorage.setItem('fx_admin_config', JSON.stringify(adminConfig));
+            });
+            
+            document.getElementById('discord-notifications').addEventListener('change', function(e) {
+                adminConfig.discordNotifications = e.target.checked;
+                localStorage.setItem('fx_admin_config', JSON.stringify(adminConfig));
+            });
+            
+            document.getElementById('analytics-tracking').addEventListener('change', function(e) {
+                adminConfig.analyticsTracking = e.target.checked;
+                localStorage.setItem('fx_admin_config', JSON.stringify(adminConfig));
+            });
+            
+            // Charger la configuration admin
+            const savedConfig = localStorage.getItem('fx_admin_config');
+            if (savedConfig) {
+                adminConfig = JSON.parse(savedConfig);
+                document.getElementById('auto-logging').checked = adminConfig.autoLogging;
+                document.getElementById('discord-notifications').checked = adminConfig.discordNotifications;
+                document.getElementById('analytics-tracking').checked = adminConfig.analyticsTracking;
+            }
+            
+            // Démarrer la simulation des FPS
+            startFPSSimulation();
+            
+            // Vérifier l'authentification admin
+            const savedAuth = localStorage.getItem('fx_admin_auth');
+            const authTime = localStorage.getItem('fx_admin_auth_time');
+            
+            if (savedAuth === 'true' && authTime) {
+                const authAge = Date.now() - parseInt(authTime);
+                const maxAuthAge = 24 * 60 * 60 * 1000; // 24 heures
+                
+                if (authAge < maxAuthAge) {
+                    adminAuthenticated = true;
+                } else {
+                    // Expiration de l'authentification
+                    localStorage.removeItem('fx_admin_auth');
+                    localStorage.removeItem('fx_admin_auth_time');
+                    adminAuthenticated = false;
+                }
+            }
+            
+            // Vérifier et réinitialiser les statistiques quotidiennes
+            const lastVisitDate = localStorage.getItem('fx_last_visit_date');
+            const today = new Date().toDateString();
+            
+            if (lastVisitDate !== today) {
+                visitStats.today = 0;
+                localStorage.setItem('fx_last_visit_date', today);
+                localStorage.setItem('fx_admin_stats', JSON.stringify(visitStats));
+            }
 
             // Application automatique du code de réduction pendant la saisie
             document.getElementById('discount-code').addEventListener('input', function(e) {
@@ -3434,6 +4889,22 @@
                 if (code === 'MAYU') {
                     // Appliquer automatiquement le code MAYU
                     applyDiscountCode();
+                }
+            });
+            
+            // Gestion des touches clavier pour le panel admin
+            document.addEventListener('keydown', function(e) {
+                // Ctrl + Shift + A pour ouvrir le panel admin
+                if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+                    e.preventDefault();
+                    if (!adminPanelOpen) {
+                        toggleAdminPanel();
+                    }
+                }
+                
+                // Échap pour fermer le panel admin
+                if (e.key === 'Escape' && adminPanelOpen) {
+                    toggleAdminPanel();
                 }
             });
 
