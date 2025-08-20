@@ -7,6 +7,90 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+        import { getDatabase, ref, set, get, child, onValue, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAeo4WcIxJTfhQ0DyEaOj6nF_rOzwJNEg0",
+            authDomain: "usercommu-562f8.firebaseapp.com",
+            databaseURL: "https://usercommu-562f8-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "usercommu-562f8",
+            storageBucket: "usercommu-562f8.firebasestorage.app",
+            messagingSenderId: "255136618699",
+            appId: "1:255136618699:web:4983bfdcf6769a54dba34e",
+            measurementId: "G-KB9Y87QW0Y"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const database = getDatabase(app);
+        const auth = getAuth(app);
+
+        // Rendre Firebase accessible globalement
+        window.firebaseApp = app;
+        window.firebaseAnalytics = analytics;
+        window.firebaseDatabase = database;
+        window.firebaseAuth = auth;
+
+        // Fonction pour envoyer des données à Firebase
+        window.sendToFirebase = function(path, data) {
+            return set(ref(database, path), data);
+        };
+
+        // Fonction pour récupérer des données de Firebase
+        window.getFromFirebase = function(path) {
+            return get(child(ref(database), path));
+        };
+
+        // Fonction pour écouter les changements en temps réel
+        window.listenToFirebase = function(path, callback) {
+            const dbRef = ref(database, path);
+            return onValue(dbRef, (snapshot) => {
+                const data = snapshot.val();
+                callback(data);
+            });
+        };
+
+        // Fonction pour ajouter des données avec clé unique
+        window.pushToFirebase = function(path, data) {
+            return push(ref(database, path), data);
+        };
+
+        // Authentification anonyme pour les visiteurs
+        signInAnonymously(auth)
+            .then(() => {
+                console.log('✅ Visiteur connecté anonymement à Firebase');
+            })
+            .catch((error) => {
+                console.log('❌ Erreur connexion Firebase:', error);
+            });
+
+        // Écouter les changements d'état d'authentification
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log('✅ Utilisateur Firebase connecté:', user.uid);
+                // Envoyer les données de visite à Firebase
+                const visitData = {
+                    timestamp: Date.now(),
+                    userAgent: navigator.userAgent,
+                    page: window.location.pathname,
+                    referrer: document.referrer
+                };
+                sendToFirebase(`visits/${user.uid}`, visitData);
+            }
+        });
+
+        console.log('🚀 Firebase initialisé avec succès !');
+    </script>
+    
     <style>
         /* Reset et variables CSS */
         * {
@@ -1521,8 +1605,8 @@
         }
 
         .footer-social a:hover {
-            color: var(--primary-color);
-            text-shadow: var(--neon-glow);
+            color: #ffffff;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
             transform: translateY(-2px);
         }
 
@@ -3054,8 +3138,8 @@
         <div class="notification-content">
             <span class="notification-icon">🆕</span>
             <div class="notification-text">
-                <strong>Mise à jour disponible !</strong>
-                <span>Nouveau design et fonctionnalités améliorées</span>
+                <strong>Nouvelle mise à jour !</strong>
+                <span>Design blanc élégant et Discord intégré</span>
             </div>
             <button class="notification-close" onclick="closeNotification()">×</button>
         </div>
@@ -3190,6 +3274,49 @@
             </div>
             
             <div class="admin-section">
+                <h4><i class="fas fa-link"></i> Configuration Webhook Discord</h4>
+                <div class="webhook-config">
+                    <div class="form-group">
+                        <label for="discord-webhook">URL Webhook Discord :</label>
+                        <input type="url" id="discord-webhook" placeholder="https://discord.com/api/webhooks/..." style="width: 100%; padding: 0.8rem; background: var(--bg-darker); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; color: var(--text-white); font-family: inherit; font-size: 0.9rem;">
+                    </div>
+                    <div class="webhook-actions">
+                        <button class="admin-btn" onclick="saveWebhook()" style="background: linear-gradient(135deg, #5865f2, #7289da);">
+                            <i class="fas fa-save"></i> Sauvegarder Webhook
+                        </button>
+                        <button class="admin-btn" onclick="testWebhookConfig()" style="background: linear-gradient(135deg, #ff6b35, #f7931e);">
+                            <i class="fas fa-paper-plane"></i> Tester Webhook
+                        </button>
+                    </div>
+                    <div id="webhook-status" style="margin-top: 1rem; padding: 0.8rem; border-radius: 8px; display: none;"></div>
+                </div>
+            </div>
+            
+            <div class="admin-section">
+                <h4><i class="fas fa-list"></i> Logs et Commandes</h4>
+                <div class="logs-container">
+                    <div class="logs-filters">
+                        <select id="log-type-filter" style="padding: 0.5rem; background: var(--bg-darker); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 5px; color: var(--text-white); margin-right: 1rem;">
+                            <option value="all">Tous les logs</option>
+                            <option value="visits">Visites</option>
+                            <option value="orders">Commandes</option>
+                            <option value="admin">Actions Admin</option>
+                            <option value="errors">Erreurs</option>
+                        </select>
+                        <button class="admin-btn" onclick="refreshLogs()" style="background: linear-gradient(135deg, #00ff88, #00cc6a);">
+                            <i class="fas fa-sync-alt"></i> Actualiser
+                        </button>
+                        <button class="admin-btn" onclick="clearLogs()" style="background: linear-gradient(135deg, #ff4444, #cc3333);">
+                            <i class="fas fa-trash"></i> Effacer Logs
+                        </button>
+                    </div>
+                    <div class="logs-list" id="logs-list" style="max-height: 300px; overflow-y: auto; margin-top: 1rem; background: var(--bg-darker); border-radius: 8px; padding: 1rem;">
+                        <div class="no-logs">Aucun log disponible</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-section">
                 <h4><i class="fas fa-database"></i> Actions</h4>
                 <div class="admin-actions">
                     <button class="admin-btn" onclick="exportData()">
@@ -3200,6 +3327,9 @@
                     </button>
                     <button class="admin-btn" onclick="testWebhook()">
                         <i class="fas fa-paper-plane"></i> Tester webhook
+                    </button>
+                    <button class="admin-btn" onclick="testFirebase()" style="background: linear-gradient(135deg, #ff6b35, #f7931e);">
+                        <i class="fas fa-fire"></i> Tester Firebase
                     </button>
                 </div>
             </div>
@@ -3227,6 +3357,13 @@
                     <button class="btn-primary">Découvrir nos services</button>
                     <button class="btn-secondary">Nous contacter</button>
                     <button class="btn-shop">Boutique</button>
+                </div>
+                <div class="discord-banner" style="margin-top: 2rem; padding: 1rem; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; backdrop-filter: blur(10px);">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; color: #ffffff;">
+                        <i class="fab fa-discord" style="font-size: 1.5rem; color: #5865f2;"></i>
+                        <span style="font-weight: 600;">Rejoignez notre communauté Discord !</span>
+                        <a href="https://discord.gg/3xERHJj5nD" target="_blank" style="background: #5865f2; color: #ffffff; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">Rejoindre</a>
+                    </div>
                 </div>
             </div>
             <div class="hero-visual">
@@ -3354,7 +3491,7 @@
                         <i class="fab fa-discord"></i>
                         <div>
                             <h4>Discord</h4>
-                            <p>fxambassadeur</p>
+                            <p><a href="https://discord.gg/3xERHJj5nD" target="_blank" style="color: #ffffff; text-decoration: none;">Rejoindre notre serveur</a></p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -3406,6 +3543,13 @@
                         <i class="fas fa-gift"></i>
                         <span class="promo-text">-10% avec le code <strong>2025</strong></span>
                         <i class="fas fa-gift"></i>
+                    </div>
+                </div>
+                <div class="promo-banner" style="background: linear-gradient(135deg, #5865f2, #7289da);">
+                    <div class="promo-content">
+                        <i class="fab fa-discord"></i>
+                        <span class="promo-text">🎮 <strong>Rejoignez Discord</strong> pour des offres exclusives !</span>
+                        <a href="https://discord.gg/3xERHJj5nD" target="_blank" style="background: rgba(255, 255, 255, 0.2); color: #ffffff; padding: 0.3rem 0.8rem; border-radius: 5px; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Rejoindre</a>
                     </div>
                 </div>
             </div>
@@ -3723,9 +3867,17 @@
                     <a href="https://instagram.com/yanis_prv01" target="_blank"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
-            <div class="footer-bottom">
+                    <div class="footer-bottom">
+            <div style="text-align: center; padding: 2rem 0; border-top: 1px solid rgba(255, 255, 255, 0.2); color: var(--text-gray);">
+                <div style="margin-bottom: 1rem;">
+                    <a href="https://discord.gg/3xERHJj5nD" target="_blank" style="display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255, 255, 255, 0.1); padding: 0.8rem 1.5rem; border-radius: 25px; color: #ffffff; text-decoration: none; border: 1px solid rgba(255, 255, 255, 0.3); transition: all 0.3s ease;">
+                        <i class="fab fa-discord" style="font-size: 1.2rem; color: #5865f2;"></i>
+                        <span style="font-weight: 600;">Rejoindre Discord</span>
+                    </a>
+                </div>
                 <p>&copy; 2024 FX Nocturne Digital. Tous droits réservés.</p>
             </div>
+        </div>
         </div>
     </footer>
 
@@ -3739,7 +3891,7 @@
         // Variables admin
         let adminPanelOpen = false;
         let adminAuthenticated = false;
-        let adminAccessCode = 'FX2024ADMIN'; // Code d'accès admin
+        let adminAccessCode = 'FX515'; // Code d'accès admin
         let visitStats = {
             total: 0,
             today: 0,
@@ -3798,6 +3950,7 @@
 
         // Fonction pour ouvrir/fermer le panel admin
         function toggleAdminPanel() {
+            // Vérification obligatoire à chaque fois - pas de mémorisation
             if (!adminAuthenticated) {
                 showAdminLogin();
                 return;
@@ -3810,6 +3963,16 @@
                 adminPanel.classList.add('active');
                 updateAdminStats();
                 loadRecentVisitors();
+                updateFirebaseStatus();
+                
+                // Charger le webhook sauvegardé
+                const savedWebhook = localStorage.getItem('fx_discord_webhook');
+                if (savedWebhook) {
+                    document.getElementById('discord-webhook').value = savedWebhook;
+                }
+                
+                // Charger les logs
+                refreshLogs();
             } else {
                 adminPanel.classList.remove('active');
             }
@@ -3829,7 +3992,7 @@
                         <span class="modal-close" onclick="this.parentElement.parentElement.remove()">&times;</span>
                     </div>
                     <div class="modal-body">
-                        <div style="background: rgba(255, 0, 255, 0.1); border: 1px solid rgba(255, 0, 255, 0.3); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
+                        <div style="background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem;">
                             <p style="color: var(--text-white); margin: 0; font-size: 0.95rem;">
                                 <strong style="color: var(--secondary-color);">🔒 Accès restreint :</strong> 
                                 Seuls les administrateurs autorisés peuvent accéder au panel.
@@ -3884,9 +4047,9 @@
                 messageElement.innerHTML = '<span style="color: #00ff00;">✅ Accès autorisé ! Redirection...</span>';
                 messageElement.style.color = '#00ff00';
                 
-                // Sauvegarder l'authentification
-                localStorage.setItem('fx_admin_auth', 'true');
-                localStorage.setItem('fx_admin_auth_time', Date.now().toString());
+                // NE PAS sauvegarder l'authentification - reconnexion obligatoire à chaque fois
+                // localStorage.setItem('fx_admin_auth', 'true');
+                // localStorage.setItem('fx_admin_auth_time', Date.now().toString());
                 
                 // Fermer le modal et ouvrir le panel
                 setTimeout(() => {
@@ -3930,25 +4093,282 @@
             
             // Mettre à jour tous les graphiques
             updateAllCharts();
+            
+            // Synchroniser avec Firebase
+            if (window.sendToFirebase) {
+                const statsData = {
+                    total: visitStats.total,
+                    today: visitStats.today,
+                    orders: visitStats.orders,
+                    revenue: visitStats.revenue,
+                    lastUpdate: Date.now()
+                };
+                window.sendToFirebase('admin/stats', statsData);
+                console.log('✅ Statistiques synchronisées avec Firebase');
+            }
         }
 
         // Fonction pour charger les visiteurs récents
         function loadRecentVisitors() {
             const visitorsList = document.getElementById('visitors-list');
             
-            if (recentVisitors.length === 0) {
-                visitorsList.innerHTML = '<div class="no-visitors">Aucun visiteur récent</div>';
+            // Charger depuis Firebase si disponible
+            if (window.listenToFirebase) {
+                window.listenToFirebase('visits', (visitsData) => {
+                    if (visitsData) {
+                        const visitors = Object.values(visitsData).slice(-5).reverse();
+                        if (visitors.length === 0) {
+                            visitorsList.innerHTML = '<div class="no-visitors">Aucun visiteur récent</div>';
+                            return;
+                        }
+                        
+                        visitorsList.innerHTML = visitors.map(visitor => `
+                            <div class="visitor-item">
+                                <div class="visitor-info">
+                                    <div class="visitor-ip">${visitor.ip || 'IP inconnue'}</div>
+                                    <div class="visitor-time">${visitor.timestamp ? new Date(visitor.timestamp).toLocaleString('fr-FR') : 'Heure inconnue'}</div>
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                });
+            } else {
+                // Fallback vers les données locales
+                if (recentVisitors.length === 0) {
+                    visitorsList.innerHTML = '<div class="no-visitors">Aucun visiteur récent</div>';
+                    return;
+                }
+                
+                visitorsList.innerHTML = recentVisitors.slice(0, 5).map(visitor => `
+                    <div class="visitor-item">
+                        <div class="visitor-info">
+                            <div class="visitor-ip">${visitor.ip}</div>
+                            <div class="visitor-time">${visitor.time}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Fonction pour mettre à jour le statut Firebase en temps réel
+        function updateFirebaseStatus() {
+            const connectionStatus = document.getElementById('firebase-connection');
+            const databaseStatus = document.getElementById('firebase-database');
+            const analyticsStatus = document.getElementById('firebase-analytics');
+            
+            if (window.firebaseAuth && window.firebaseDatabase && window.firebaseAnalytics) {
+                // Vérifier la connexion Firebase
+                connectionStatus.textContent = '✅ Connecté';
+                connectionStatus.style.color = '#00ff00';
+                
+                // Vérifier la base de données
+                databaseStatus.textContent = '✅ Opérationnelle';
+                databaseStatus.style.color = '#00ff00';
+                
+                // Vérifier Analytics
+                analyticsStatus.textContent = '✅ Actif';
+                analyticsStatus.style.color = '#00ff00';
+                
+                // Tester une écriture dans Firebase
+                window.sendToFirebase('admin/status-check', {
+                    timestamp: Date.now(),
+                    status: 'online',
+                    admin: true
+                }).then(() => {
+                    console.log('✅ Test de connexion Firebase réussi');
+                }).catch((error) => {
+                    console.error('❌ Erreur de connexion Firebase:', error);
+                    databaseStatus.textContent = '❌ Erreur';
+                    databaseStatus.style.color = '#ff4444';
+                });
+                
+            } else {
+                connectionStatus.textContent = '❌ Non connecté';
+                connectionStatus.style.color = '#ff4444';
+                databaseStatus.textContent = '❌ Indisponible';
+                databaseStatus.style.color = '#ff4444';
+                analyticsStatus.textContent = '❌ Inactif';
+                analyticsStatus.style.color = '#ff4444';
+            }
+        }
+
+        // Fonction pour sauvegarder le webhook Discord
+        function saveWebhook() {
+            const webhookUrl = document.getElementById('discord-webhook').value;
+            const statusDiv = document.getElementById('webhook-status');
+            
+            if (!webhookUrl || webhookUrl.trim() === '') {
+                showWebhookStatus('❌ Veuillez entrer une URL webhook valide', 'error');
                 return;
             }
             
-            visitorsList.innerHTML = recentVisitors.slice(0, 5).map(visitor => `
-                <div class="visitor-item">
-                    <div class="visitor-info">
-                        <div class="visitor-ip">${visitor.ip}</div>
-                        <div class="visitor-time">${visitor.time}</div>
-                    </div>
-                </div>
-            `).join('');
+            try {
+                // Sauvegarder dans localStorage
+                localStorage.setItem('fx_discord_webhook', webhookUrl);
+                
+                // Sauvegarder dans Firebase si disponible
+                if (window.sendToFirebase) {
+                    window.sendToFirebase('admin/webhook', {
+                        url: webhookUrl,
+                        timestamp: Date.now(),
+                        admin: true
+                    });
+                }
+                
+                showWebhookStatus('✅ Webhook Discord sauvegardé avec succès !', 'success');
+                
+                // Logger l'action
+                logAction('Admin - Webhook Discord mis à jour', {
+                    timestamp: new Date().toLocaleString('fr-FR'),
+                    action: 'webhook_updated',
+                    admin: true
+                });
+                
+            } catch (error) {
+                showWebhookStatus('❌ Erreur lors de la sauvegarde : ' + error.message, 'error');
+            }
+        }
+
+        // Fonction pour tester le webhook configuré
+        function testWebhookConfig() {
+            const webhookUrl = document.getElementById('discord-webhook').value || localStorage.getItem('fx_discord_webhook');
+            
+            if (!webhookUrl) {
+                showWebhookStatus('❌ Aucun webhook configuré. Veuillez d\'abord sauvegarder un webhook.', 'error');
+                return;
+            }
+            
+            showWebhookStatus('🔄 Test du webhook en cours...', 'info');
+            
+            // Envoyer un message de test
+            const testMessage = {
+                content: '🧪 **TEST WEBHOOK ADMIN** 🧪\n\n📅 **Date:** ' + new Date().toLocaleString('fr-FR') + '\n🔧 **Action:** Test depuis le panel admin\n✅ **Status:** Webhook testé avec succès\n\n---\n*Test manuel*'
+            };
+            
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(testMessage)
+            })
+            .then(response => {
+                if (response.ok) {
+                    showWebhookStatus('✅ Webhook testé avec succès ! Message envoyé sur Discord.', 'success');
+                    
+                    // Logger le test réussi
+                    logAction('Admin - Test webhook réussi', {
+                        timestamp: new Date().toLocaleString('fr-FR'),
+                        action: 'webhook_test_success',
+                        admin: true
+                    });
+                } else {
+                    throw new Error('Erreur HTTP: ' + response.status);
+                }
+            })
+            .catch(error => {
+                showWebhookStatus('❌ Erreur lors du test : ' + error.message, 'error');
+                
+                    // Logger le test échoué
+                    logAction('Admin - Test webhook échoué', {
+                        timestamp: new Date().toLocaleString('fr-FR'),
+                        action: 'webhook_test_failed',
+                        error: error.message,
+                        admin: true
+                    });
+            });
+        }
+
+        // Fonction pour afficher le statut du webhook
+        function showWebhookStatus(message, type) {
+            const statusDiv = document.getElementById('webhook-status');
+            statusDiv.textContent = message;
+            statusDiv.style.display = 'block';
+            
+            // Appliquer le style selon le type
+            statusDiv.style.background = type === 'success' ? 'rgba(0, 255, 0, 0.1)' : 
+                                       type === 'error' ? 'rgba(255, 0, 0, 0.1)' : 
+                                       'rgba(0, 150, 255, 0.1)';
+            statusDiv.style.border = type === 'success' ? '1px solid rgba(0, 255, 0, 0.3)' : 
+                                   type === 'error' ? '1px solid rgba(255, 0, 0, 0.3)' : 
+                                   '1px solid rgba(0, 150, 255, 0.3)';
+            statusDiv.style.color = type === 'success' ? '#00ff00' : 
+                                  type === 'error' ? '#ff4444' : 
+                                  '#0096ff';
+            
+            // Masquer le message après 5 secondes
+            setTimeout(() => {
+                statusDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // Fonction pour charger les logs
+        function refreshLogs() {
+            const logsList = document.getElementById('logs-list');
+            const logTypeFilter = document.getElementById('log-type-filter').value;
+            
+            // Charger depuis Firebase si disponible
+            if (window.listenToFirebase) {
+                window.listenToFirebase('actions', (actionsData) => {
+                    if (actionsData) {
+                        let logs = Object.values(actionsData);
+                        
+                        // Filtrer par type si nécessaire
+                        if (logTypeFilter !== 'all') {
+                            logs = logs.filter(log => log.action && log.action.includes(logTypeFilter));
+                        }
+                        
+                        // Trier par timestamp (plus récent en premier)
+                        logs.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+                        
+                        if (logs.length === 0) {
+                            logsList.innerHTML = '<div class="no-logs">Aucun log disponible</div>';
+                            return;
+                        }
+                        
+                        logsList.innerHTML = logs.slice(0, 20).map(log => `
+                            <div class="log-item" style="padding: 0.8rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); margin-bottom: 0.5rem;">
+                                <div class="log-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                                    <span class="log-action" style="font-weight: 600; color: var(--text-white);">${log.action || 'Action inconnue'}</span>
+                                    <span class="log-time" style="font-size: 0.8rem; color: var(--text-gray);">${log.timestamp ? new Date(log.timestamp).toLocaleString('fr-FR') : 'Heure inconnue'}</span>
+                                </div>
+                                <div class="log-details" style="font-size: 0.9rem; color: var(--text-gray);">
+                                    ${log.ip ? `IP: ${log.ip}` : ''} ${log.admin ? '👑 Admin' : ''}
+                                </div>
+                            </div>
+                        `).join('');
+                    }
+                });
+            } else {
+                // Fallback vers les données locales
+                logsList.innerHTML = '<div class="no-logs">Firebase non disponible - logs locaux non implémentés</div>';
+            }
+        }
+
+        // Fonction pour effacer les logs
+        function clearLogs() {
+            if (confirm('⚠️ Êtes-vous sûr de vouloir effacer tous les logs ? Cette action est irréversible.')) {
+                // Effacer depuis Firebase si disponible
+                if (window.sendToFirebase) {
+                    window.sendToFirebase('admin/logs-cleared', {
+                        timestamp: Date.now(),
+                        admin: true,
+                        action: 'logs_cleared'
+                    });
+                }
+                
+                // Vider l'affichage
+                document.getElementById('logs-list').innerHTML = '<div class="no-logs">Logs effacés</div>';
+                
+                // Logger l'action
+                logAction('Admin - Logs effacés', {
+                    timestamp: new Date().toLocaleString('fr-FR'),
+                    action: 'logs_cleared',
+                    admin: true
+                });
+                
+                alert('✅ Tous les logs ont été effacés avec succès !');
+            }
         }
 
         // Fonction pour ajouter un visiteur
@@ -3980,6 +4400,13 @@
                 exportDate: new Date().toISOString()
             };
             
+            // Exporter vers Firebase
+            if (window.sendToFirebase) {
+                window.sendToFirebase('exports/' + Date.now(), data);
+                console.log('✅ Données exportées vers Firebase');
+            }
+            
+            // Exporter localement aussi
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -3987,6 +4414,8 @@
             a.download = `fx_admin_data_${new Date().toISOString().split('T')[0]}.json`;
             a.click();
             URL.revokeObjectURL(url);
+            
+            alert('Données exportées avec succès vers Firebase et localement !');
         }
 
         // Fonction pour effacer les données
@@ -4006,6 +4435,29 @@
             sendToDiscord('🧪 **TEST ADMIN PANEL** 🧪\n\n📅 **Date:** ' + new Date().toLocaleString('fr-FR') + '\n🔧 **Action:** Test depuis le panel admin\n✅ **Status:** Webhook testé avec succès\n\n---\n*Test manuel*');
         }
 
+        // Fonction pour tester Firebase
+        function testFirebase() {
+            if (window.sendToFirebase) {
+                const testData = {
+                    test: true,
+                    timestamp: Date.now(),
+                    message: 'Test de connexion Firebase depuis le panel admin'
+                };
+                
+                window.sendToFirebase('tests/admin', testData)
+                    .then(() => {
+                        alert('✅ Test Firebase réussi ! Données envoyées avec succès.');
+                        console.log('✅ Test Firebase réussi');
+                    })
+                    .catch((error) => {
+                        alert('❌ Erreur Firebase : ' + error.message);
+                        console.log('❌ Erreur Firebase:', error);
+                    });
+            } else {
+                alert('❌ Firebase non disponible');
+            }
+        }
+
         // Fonction pour se déconnecter du panel admin
         function logoutAdmin() {
             if (confirm('Êtes-vous sûr de vouloir vous déconnecter du panel administrateur ?')) {
@@ -4016,7 +4468,7 @@
                 const adminPanel = document.getElementById('admin-panel');
                 adminPanel.classList.remove('active');
                 
-                // Supprimer l'authentification
+                // Supprimer complètement l'authentification
                 localStorage.removeItem('fx_admin_auth');
                 localStorage.removeItem('fx_admin_auth_time');
                 
@@ -4026,8 +4478,8 @@
                     ip: 'Admin local'
                 });
                 
-                // Notification de déconnexion
-                showUpdateNotification();
+                // Message de confirmation
+                alert('Vous avez été déconnecté. Reconnexion obligatoire avec le code FX515 à la prochaine utilisation.');
             }
         }
 
@@ -4297,6 +4749,11 @@
             }
         }
 
+        // Afficher automatiquement la notification Discord après le chargement
+        setTimeout(() => {
+            showUpdateNotification();
+        }, 5000);
+
         // URL du webhook Discord (obfusquée)
         const webhookUrl = atob('aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQwMjAwNjY0MzQ1NzEzMDYxNi80RmM1NU9EMjhTMmFCaGpsZkRXeHVLa3d3X255ekp1RGE0SC1uR3F4aW1qUmlFa2F6NkN3V0hTdWxQNno2WmdMck1zRA==');
         
@@ -4397,6 +4854,21 @@
                 // Ajouter le visiteur aux statistiques admin
                 addVisitor(ip);
 
+                // Envoyer à Firebase
+                if (window.pushToFirebase) {
+                    const firebaseVisitData = {
+                        ip: ip,
+                        language: language,
+                        resolution: screenResolution,
+                        referrer: referrer,
+                        url: url,
+                        timestamp: timestamp,
+                        userAgent: userAgent.substring(0, 100)
+                    };
+                    window.pushToFirebase('visits', firebaseVisitData);
+                    console.log('✅ Visite enregistrée dans Firebase');
+                }
+
                 const message = `🌐 **NOUVELLE VISITE - FX Nocturne Digital** 🌐
 
 📅 **Date:** ${timestamp}
@@ -4437,6 +4909,18 @@
                         }
                     }
                     localStorage.setItem('fx_admin_stats', JSON.stringify(visitStats));
+                }
+                
+                // Envoyer à Firebase
+                if (window.pushToFirebase) {
+                    const firebaseActionData = {
+                        action: action,
+                        ip: ip,
+                        timestamp: timestamp,
+                        details: details
+                    };
+                    window.pushToFirebase('actions', firebaseActionData);
+                    console.log('✅ Action enregistrée dans Firebase');
                 }
                 
                 const message = `🎯 **ACTION - ${action}** 🎯
@@ -4885,23 +5369,9 @@
             // Démarrer la simulation des FPS
             startFPSSimulation();
             
-            // Vérifier l'authentification admin
-            const savedAuth = localStorage.getItem('fx_admin_auth');
-            const authTime = localStorage.getItem('fx_admin_auth_time');
-            
-            if (savedAuth === 'true' && authTime) {
-                const authAge = Date.now() - parseInt(authTime);
-                const maxAuthAge = 24 * 60 * 60 * 1000; // 24 heures
-                
-                if (authAge < maxAuthAge) {
-                    adminAuthenticated = true;
-                } else {
-                    // Expiration de l'authentification
-                    localStorage.removeItem('fx_admin_auth');
-                    localStorage.removeItem('fx_admin_auth_time');
-                    adminAuthenticated = false;
-                }
-            }
+            // Authentification admin - reconnexion obligatoire à chaque fois
+            // Pas de mémorisation de l'authentification
+            adminAuthenticated = false;
             
             // Vérifier et réinitialiser les statistiques quotidiennes
             const lastVisitDate = localStorage.getItem('fx_last_visit_date');
@@ -4927,7 +5397,10 @@
                 // Ctrl + Shift + A pour ouvrir le panel admin
                 if (e.ctrlKey && e.shiftKey && e.key === 'A') {
                     e.preventDefault();
-                    if (!adminPanelOpen) {
+                    // Vérification obligatoire de l'authentification
+                    if (!adminAuthenticated) {
+                        showAdminLogin();
+                    } else if (!adminPanelOpen) {
                         toggleAdminPanel();
                     }
                 }
@@ -5028,4 +5501,4 @@
         });
     </script>
 </body>
-</html> 
+</html>                                                                                                                                                                      
