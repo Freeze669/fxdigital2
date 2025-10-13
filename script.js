@@ -37,12 +37,15 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 // Animation de la navbar au scroll
 window.addEventListener('scroll', () => {
     const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(0, 0, 0, 0.95)';
-        navbar.style.boxShadow = '0 2px 20px rgba(0, 255, 255, 0.1)';
+    if (!navbar) return;
+    if (window.scrollY > 80) {
+        navbar.style.background = 'rgba(0, 0, 0, 0.85)';
+        navbar.style.boxShadow = '0 6px 18px rgba(0, 0, 0, 0.35)';
+        navbar.style.transform = 'translateY(0)';
     } else {
-        navbar.style.background = 'rgba(0, 0, 0, 0.9)';
-        navbar.style.boxShadow = 'none';
+        navbar.style.background = 'rgba(0, 0, 0, 0.6)';
+        navbar.style.boxShadow = '0 2px 12px rgba(0, 0, 0, 0.4)';
+        navbar.style.transform = 'translateY(0)';
     }
 });
 

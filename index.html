@@ -610,9 +610,7 @@
 
         body {
             font-family: 'Rajdhani', sans-serif;
-            background: linear-gradient(135deg, #000000, #050505, #000000);
-            background-size: 400% 400%;
-            animation: deepBackgroundShift 20s ease-in-out infinite;
+            background: #000000; /* fond noir uni */
             color: var(--text-white);
             overflow-x: hidden;
             line-height: 1.6;
@@ -626,18 +624,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(0, 255, 255, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.03) 0%, transparent 50%),
-                radial-gradient(circle at 40% 40%, rgba(255, 255, 0, 0.02) 0%, transparent 50%);
+            background: none; /* pas de halo couleur */
             pointer-events: none;
             z-index: -1;
         }
 
-        @keyframes deepBackgroundShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
+        /* Suppression de l'animation de fond multicolore */
 
         /* Update Notification - Popup */
         .update-notification {
@@ -645,14 +637,12 @@
             top: 20px;
             right: 20px;
             transform: translateX(100%) scale(0.8);
-            background: linear-gradient(135deg, #00ffff, #ff00ff, #00ffff);
-            background-size: 200% 200%;
-            animation: gradientShift 6s ease-in-out infinite;
-            color: #000;
+            background: #000; /* noir */
+            color: #fff; /* texte blanc */
             z-index: 1001;
-            box-shadow: 0 10px 40px rgba(0, 255, 255, 0.4);
+            box-shadow: none;
             border-radius: 15px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid #ff0000; /* rouge */
             backdrop-filter: blur(10px);
             opacity: 0;
             max-width: 400px;
@@ -671,7 +661,7 @@
         .notification-icon {
             font-size: 1.5rem;
             margin-right: 1rem;
-            animation: bounce 1s ease-in-out infinite;
+            color: #ff0000; /* rouge */
         }
 
         .notification-text {
@@ -697,7 +687,7 @@
             background: none;
             border: none;
             font-size: 1.8rem;
-            color: #000;
+            color: #ffffff;
             cursor: pointer;
             padding: 0.5rem;
             border-radius: 50%;
@@ -731,23 +721,22 @@
             }
         }
 
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
+        /* Suppression du dégradé multicolore pour la notification */
 
         /* Navigation */
         .navbar {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            backdrop-filter: blur(15px);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             z-index: 1000;
-            padding: 1rem 0;
-            transition: all 0.3s ease;
-            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+            padding: 0.75rem 0;
+            transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
         }
 
         .nav-container {
@@ -757,12 +746,11 @@
             justify-content: space-between;
             align-items: center;
             padding: 0 2rem;
-            background: rgba(0, 0, 0, 0.8);
-            border-radius: 25px;
-            border: 1px solid rgba(0, 255, 255, 0.4);
-            backdrop-filter: blur(20px);
+            background: transparent;
+            border-radius: 0;
+            border: none;
             width: calc(100% - 2rem);
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+            box-shadow: none;
         }
 
         .nav-logo {
@@ -773,11 +761,12 @@
 
         .logo-text {
             font-family: 'Orbitron', monospace;
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--primary-color);
-            text-shadow: var(--neon-glow);
-            animation: neonPulse 2s ease-in-out infinite alternate;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: none;
+            letter-spacing: 0.5px;
+            animation: none;
         }
 
         .logo-subtitle {
@@ -793,11 +782,11 @@
         }
 
         .nav-link {
-            color: var(--text-white);
+            color: rgba(255, 255, 255, 0.85);
             text-decoration: none;
             font-weight: 600;
             position: relative;
-            transition: all 0.3s ease;
+            transition: color 0.2s ease;
         }
 
         .nav-link::after {
@@ -817,7 +806,7 @@
 
         .nav-link:hover {
             color: #ffffff;
-            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            text-shadow: none;
         }
 
         .hamburger {
@@ -828,10 +817,11 @@
 
         .hamburger span {
             width: 25px;
-            height: 3px;
-            background: var(--primary-color);
+            height: 2px;
+            background: #ffffff;
             margin: 3px 0;
             transition: 0.3s;
+            border-radius: 2px;
         }
 
         /* Bell Icon */
@@ -841,8 +831,8 @@
             justify-content: center;
             width: 40px;
             height: 40px;
-            background: rgba(0, 255, 255, 0.1);
-            border: 1px solid rgba(0, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 50%;
             cursor: pointer;
             margin-left: 1rem;
@@ -890,10 +880,10 @@
         }
 
         .bell-icon:hover {
-            background: rgba(0, 255, 255, 0.2);
-            border-color: var(--primary-color);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
-            transform: scale(1.1);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+            transform: scale(1.06);
         }
 
         .bell-icon i {
@@ -1169,8 +1159,8 @@
         .scroll-arrow {
             width: 30px;
             height: 30px;
-            border-right: 2px solid var(--primary-color);
-            border-bottom: 2px solid var(--primary-color);
+            border-right: 2px solid #ffffff; /* blanc */
+            border-bottom: 2px solid #ffffff; /* blanc */
             transform: rotate(45deg);
         }
 
@@ -3138,8 +3128,8 @@
         <div class="notification-content">
             <span class="notification-icon">🆕</span>
             <div class="notification-text">
-                <strong>Nouvelle mise à jour !</strong>
-                <span>Design blanc élégant et Discord intégré</span>
+                <strong>Grosse mise à jour en approche 🚀</strong>
+                <span>Du lourd arrive très bientôt. Nouvelle mise à jour TRÈS importante.</span>
             </div>
             <button class="notification-close" onclick="closeNotification()">×</button>
         </div>
@@ -3891,7 +3881,7 @@
         // Variables admin
         let adminPanelOpen = false;
         let adminAuthenticated = false;
-        let adminAccessCode = 'FX515'; // Code d'accès admin
+        let adminAccessCode = 'FX2025'; // Code d'accès admin
         let visitStats = {
             total: 0,
             today: 0,
@@ -4479,7 +4469,7 @@
                 });
                 
                 // Message de confirmation
-                alert('Vous avez été déconnecté. Reconnexion obligatoire avec le code FX515 à la prochaine utilisation.');
+                alert('Vous avez été déconnecté. Reconnexion obligatoire avec le code FX2025 à la prochaine utilisation.');
             }
         }
 
@@ -4738,7 +4728,7 @@
             if (notification) {
                 notification.style.display = 'block';
                 notification.style.opacity = '1';
-                notification.style.animation = 'slideInRight 0.6s ease-out forwards, gradientShift 6s ease-in-out infinite';
+                notification.style.animation = 'slideInRight 0.6s ease-out forwards';
                 
                 // Fermer automatiquement après 8 secondes
                 setTimeout(() => {
