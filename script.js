@@ -129,7 +129,7 @@ document.querySelectorAll('.project-card').forEach(project => {
 });
 
 // Animation du formulaire de contact
-document.querySelector('.contact-form').addEventListener('submit', function(e) {
+document.querySelector('.contact-form')?.addEventListener('submit', function(e) {
     e.preventDefault();
     
     // Récupérer les données du formulaire
@@ -498,17 +498,34 @@ document.querySelectorAll('.btn-shop-item').forEach(button => {
 });
 
 // Bouton boutique dans le hero
-document.querySelector('.btn-shop').addEventListener('click', function() {
+document.querySelector('.btn-shop')?.addEventListener('click', function() {
     document.querySelector('#boutique').scrollIntoView({
         behavior: 'smooth'
     });
 });
 
 // Bouton "Découvrir nos services" redirige vers la boutique
-document.querySelector('.btn-primary').addEventListener('click', function() {
-    document.querySelector('#boutique').scrollIntoView({
-        behavior: 'smooth'
+const primaryCta = document.querySelector('.btn-primary');
+if (primaryCta) {
+    primaryCta.addEventListener('click', function() {
+        document.querySelector('#boutique').scrollIntoView({ behavior: 'smooth' });
+        logAction('CTA - Découvrir nos packs');
     });
+}
+
+// Newsletter footer
+document.getElementById('newsletter-form')?.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('newsletter-email').value.trim();
+    if (!email) return;
+    logAction('Newsletter - inscription', email);
+    try {
+        if (window.pushToFirebase) {
+            window.pushToFirebase('newsletter', { email: email, ts: Date.now() });
+        }
+    } catch (e) {}
+    this.reset();
+    alert('Merci ! Tu es bien inscrit pour recevoir nos promos.');
 });
 
 // Créateur de pack personnalisé

@@ -3,9 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FX Nocturne Digital - Innovation & Créativité</title>
+    <title>FX PVP — Agence Web: Sites Pros, Design & Marketing</title>
+    <meta name="description" content="Crée ton site web professionnel dès aujourd’hui. Packs web tout-en-un (Gratuit, Basic, Pro, Premium), design moderne, SEO, et support réactif. Paiement sécurisé et satisfaction garantie.">
+    <meta name="keywords" content="création site web, agence web, design, marketing, SEO, développement, ecommerce, landing page, vitrine, freelance">
+    <meta property="og:title" content="FX PVP — Crée ton site web pro dès aujourd’hui">
+    <meta property="og:description" content="Choisis le pack idéal pour ton projet web. Design moderne, rapidité, SEO et support 24/7.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://fx-pvp.com/">
+    <meta property="og:image" content="https://fx-pvp.com/og-image.webp">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❤️</text></svg>">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&family=Poppins:wght@300;400;600;700;900&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
     <!-- Firebase SDK -->
@@ -97,6 +104,17 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         :root {
@@ -549,6 +567,393 @@
             font-size: 1rem;
         }
 
+        /* Gestion des Packs */
+        .pack-management {
+            margin-top: 1rem;
+        }
+
+        .pack-type-selector {
+            margin-bottom: 1.5rem;
+        }
+
+        .pack-type-selector label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-white);
+            font-weight: 600;
+        }
+
+        .pack-type-selector select {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--bg-darker);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: var(--text-white);
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .pack-editor {
+            margin: 1.5rem 0;
+        }
+
+        .pack-item {
+            background: var(--bg-darker);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .pack-item h5 {
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .pack-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .pack-fields .form-group {
+            margin-bottom: 0;
+        }
+
+        .pack-fields label {
+            display: block;
+            margin-bottom: 0.3rem;
+            color: var(--text-gray);
+            font-size: 0.8rem;
+        }
+
+        .pack-fields input, .pack-fields textarea {
+            width: 100%;
+            padding: 0.5rem;
+            background: var(--bg-light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            color: var(--text-white);
+            font-family: inherit;
+            font-size: 0.8rem;
+        }
+
+        .pack-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* Boutons de type de pack */
+        .pack-type-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .pack-type-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.2rem;
+            background: var(--bg-darker);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-size: 0.9rem;
+            font-weight: 600;
+            min-width: 120px;
+            justify-content: center;
+        }
+
+        .pack-type-btn:hover {
+            background: var(--bg-light);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .pack-type-btn.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-color: var(--primary-color);
+            color: var(--bg-dark);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+        }
+
+        .pack-type-btn i {
+            font-size: 1.1rem;
+        }
+
+        .pack-type-btn span {
+            font-size: 0.85rem;
+        }
+
+        /* Gestion des Dons */
+        .donation-management {
+            margin-top: 1rem;
+        }
+
+        .donation-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .donation-stats .stat-item {
+            background: var(--bg-darker);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .donation-stats .stat-label {
+            display: block;
+            color: var(--text-gray);
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .donation-stats .stat-value {
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .donation-options {
+            margin-bottom: 1.5rem;
+        }
+
+        .donation-options .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .donation-options label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-white);
+            font-weight: 600;
+        }
+
+        .donation-options input, .donation-options textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--bg-darker);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: var(--text-white);
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .donation-list h5 {
+            color: var(--text-white);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .donation-item {
+            background: var(--bg-darker);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .donation-item .donation-amount {
+            color: var(--primary-color);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .donation-item .donation-date {
+            color: var(--text-gray);
+            font-size: 0.8rem;
+        }
+
+        .donation-item .donation-message {
+            color: var(--text-white);
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        .no-donations {
+            color: var(--text-gray);
+            text-align: center;
+            font-style: italic;
+            padding: 2rem;
+        }
+
+        .no-packs {
+            color: var(--text-gray);
+            text-align: center;
+            font-style: italic;
+            padding: 2rem;
+            background: var(--bg-darker);
+            border-radius: 8px;
+        }
+
+        /* Gestion des Notifications */
+        .notification-management {
+            margin-top: 1rem;
+        }
+
+        .notification-options {
+            margin-bottom: 1.5rem;
+        }
+
+        .notification-options .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .notification-options label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-white);
+            font-weight: 600;
+        }
+
+        .notification-options input, .notification-options textarea, .notification-options select {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--bg-darker);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            color: var(--text-white);
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .notification-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* Sélecteur de packs principal */
+        .pack-type-selector-main {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .pack-type-btn-main {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem 2rem;
+            background: var(--bg-darker);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: var(--text-white);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            min-width: 150px;
+            justify-content: center;
+        }
+
+        .pack-type-btn-main:hover {
+            background: var(--bg-light);
+            border-color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
+        }
+
+        .pack-type-btn-main.active {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-color: var(--primary-color);
+            color: var(--bg-dark);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .pack-type-btn-main i {
+            font-size: 1.3rem;
+        }
+
+        .pack-type-btn-main span {
+            font-size: 1rem;
+        }
+
+        /* Animations pour les transitions de packs */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 107, 53, 0.7);
+            }
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 10px rgba(255, 107, 53, 0);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 107, 53, 0);
+            }
+        }
+
+        @keyframes heartbeat {
+            0% {
+                transform: scale(1);
+            }
+            14% {
+                transform: scale(1.3);
+            }
+            28% {
+                transform: scale(1);
+            }
+            42% {
+                transform: scale(1.3);
+            }
+            70% {
+                transform: scale(1);
+            }
+        }
+
+        /* Animation de transition pour les boutons de type */
+        .pack-type-btn-main {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .pack-type-btn-main:hover {
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        .pack-type-btn-main.active {
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        /* Animation pour les cartes de packs */
+        .shop-item {
+            transition: all 0.3s ease;
+        }
+
+        .shop-item:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
         /* Graphiques */
         .charts-container {
             display: grid;
@@ -609,7 +1014,7 @@
         }
 
         body {
-            font-family: 'Rajdhani', sans-serif;
+            font-family: 'Poppins', 'Inter', system-ui, -apple-system, Segoe UI, Roboto, 'Rajdhani', sans-serif;
             background: #000000; /* fond noir uni */
             color: var(--text-white);
             overflow-x: hidden;
@@ -726,7 +1131,7 @@
         /* Navigation */
         .navbar {
             position: fixed;
-            top: 0;
+            top: 50px;
             left: 0;
             width: 100%;
             background: rgba(0, 0, 0, 0.6);
@@ -910,6 +1315,7 @@
             align-items: center;
             position: relative;
             overflow: hidden;
+            padding-top: 80px; /* Espace pour la bannière fixe */
         }
 
         .hero-background {
@@ -1169,6 +1575,7 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
+            box-sizing: border-box;
         }
 
         .section-header {
@@ -1184,6 +1591,8 @@
             color: var(--text-white);
             animation: textGlow 4s ease-in-out infinite;
             position: relative;
+            letter-spacing: -0.02em;
+            text-align: center;
         }
 
         .section-title::after {
@@ -1225,8 +1634,14 @@
 
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
+            justify-items: center;
+            align-items: stretch;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
         }
 
         .service-card {
@@ -1239,6 +1654,13 @@
             position: relative;
             overflow: hidden;
             animation: scaleIn 0.8s ease-out;
+            width: 100%;
+            max-width: 320px;
+            min-height: 280px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .service-card::before {
@@ -1303,8 +1725,14 @@
 
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            justify-items: center;
+            align-items: stretch;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0;
         }
 
         .project-card {
@@ -1313,6 +1741,9 @@
             border-radius: 10px;
             overflow: hidden;
             cursor: pointer;
+            width: 100%;
+            max-width: 280px;
+            box-sizing: border-box;
         }
 
         .project-image {
@@ -1630,8 +2061,14 @@
         .shop-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
+            gap: 1.5rem;
             margin-top: 3rem;
+            justify-items: center;
+            align-items: stretch;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 3rem auto 0;
+            padding: 0;
         }
 
         .shop-item {
@@ -1644,6 +2081,13 @@
             transition: all 0.3s ease;
             overflow: hidden;
             animation: slideInLeft 1s ease-out;
+            width: 100%;
+            max-width: 280px;
+            min-height: 400px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
         .shop-item:nth-child(even) {
@@ -1779,7 +2223,8 @@
             padding: 1rem;
             background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
             border-radius: 10px;
-            animation: promoGlow 2s ease-in-out infinite alternate;
+            position: relative;
+            overflow: hidden;
         }
 
         .promo-content {
@@ -1794,7 +2239,6 @@
 
         .promo-content i {
             font-size: 1.3rem;
-            animation: giftBounce 1s ease-in-out infinite;
         }
 
         .promo-text strong {
@@ -2337,15 +2781,7 @@
             60% { transform: translateX(-50%) translateY(-5px); }
         }
 
-        @keyframes promoGlow {
-            0% { box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); }
-            100% { box-shadow: 0 0 15px rgba(255, 0, 255, 0.4); }
-        }
 
-        @keyframes giftBounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
-        }
 
         @keyframes modalSlideIn {
             from {
@@ -2651,7 +3087,7 @@
             }
             
             .projects-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
                 gap: 1.5rem;
             }
             
@@ -2675,7 +3111,7 @@
             
             /* Boutique mobile */
             .shop-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
                 gap: 1.5rem;
             }
             
@@ -3012,6 +3448,11 @@
                 font-size: 1.3rem;
             }
             
+            .shop-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
             .pack-builder {
                 padding: 1rem;
             }
@@ -3140,7 +3581,7 @@
         <div class="nav-container">
             <div class="nav-logo">
                 <span class="logo-text">FX</span>
-                <span class="logo-subtitle">NOCTURNE</span>
+                <span class="logo-subtitle">PVP</span>
             </div>
             <ul class="nav-menu">
                 <li><a href="#accueil" class="nav-link">Accueil</a></li>
@@ -3323,29 +3764,156 @@
                     </button>
                 </div>
             </div>
+            
+            <!-- Gestion des Packs et Prix -->
+            <div class="admin-section">
+                <h4><i class="fas fa-shopping-cart"></i> Gestion des Packs</h4>
+                <div class="pack-management">
+                    <div class="pack-type-buttons">
+                        <button class="pack-type-btn active" onclick="switchPackType('website')" data-type="website">
+                            <i class="fas fa-globe"></i>
+                            <span>Site Web</span>
+                        </button>
+                        <button class="pack-type-btn" onclick="switchPackType('minecraft')" data-type="minecraft">
+                            <i class="fab fa-microsoft"></i>
+                            <span>Minecraft</span>
+                        </button>
+                        <button class="pack-type-btn" onclick="switchPackType('roblox')" data-type="roblox">
+                            <i class="fas fa-cube"></i>
+                            <span>Roblox</span>
+                        </button>
+                    </div>
+                    
+                    <div class="pack-type-selector" style="display: none;">
+                        <label>Type de pack :</label>
+                        <select id="pack-type-selector" onchange="loadPackType()">
+                            <option value="website">Site Internet</option>
+                            <option value="minecraft">Cheat Minecraft</option>
+                            <option value="roblox">Cheat Roblox</option>
+                        </select>
+                    </div>
+                    
+                    <div id="pack-editor" class="pack-editor">
+                        <!-- Les packs seront chargés dynamiquement -->
+                    </div>
+                    
+                    <div class="pack-actions">
+                        <button class="admin-btn" onclick="addNewPack()" style="background: linear-gradient(135deg, #00ff88, #00cc6a);">
+                            <i class="fas fa-plus"></i> Ajouter un pack
+                        </button>
+                        <button class="admin-btn" onclick="savePackChanges()" style="background: linear-gradient(135deg, #5865f2, #7289da);">
+                            <i class="fas fa-save"></i> Sauvegarder
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gestion des Notifications -->
+            <div class="admin-section">
+                <h4><i class="fas fa-bell"></i> Gestion des Notifications</h4>
+                <div class="notification-management">
+                    <div class="notification-options">
+                        <div class="form-group">
+                            <label>Titre de la notification :</label>
+                            <input type="text" id="notification-title" placeholder="Ex: Nouvelle offre disponible !" value="Nouvelle offre disponible !">
+                        </div>
+                        <div class="form-group">
+                            <label>Message de la notification :</label>
+                            <textarea id="notification-message" placeholder="Ex: Découvrez nos nouveaux packs avec -20% de réduction !" rows="3">Découvrez nos nouveaux packs avec -20% de réduction !</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Type de notification :</label>
+                            <select id="notification-type">
+                                <option value="info">Information</option>
+                                <option value="success">Succès</option>
+                                <option value="warning">Attention</option>
+                                <option value="error">Erreur</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Durée d'affichage (secondes) :</label>
+                            <input type="number" id="notification-duration" value="5" min="1" max="30">
+                        </div>
+                        <div class="notification-actions">
+                            <button class="admin-btn" onclick="testNotification()" style="background: linear-gradient(135deg, #00ff88, #00cc6a);">
+                                <i class="fas fa-play"></i> Tester la notification
+                            </button>
+                            <button class="admin-btn" onclick="saveNotification()" style="background: linear-gradient(135deg, #5865f2, #7289da);">
+                                <i class="fas fa-save"></i> Sauvegarder
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Gestion des Dons -->
+            <div class="admin-section">
+                <h4><i class="fas fa-heart"></i> Gestion des Dons</h4>
+                <div class="donation-management">
+                    <div class="donation-stats">
+                        <div class="stat-item">
+                            <span class="stat-label">Total reçu :</span>
+                            <span class="stat-value" id="total-donations">0€</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Dons ce mois :</span>
+                            <span class="stat-value" id="monthly-donations">0€</span>
+                        </div>
+                    </div>
+                    
+                    <div class="donation-options">
+                        <div class="form-group">
+                            <label>Montant du don :</label>
+                            <input type="number" id="donation-amount" placeholder="Montant en €" min="1" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label>Message du donateur :</label>
+                            <textarea id="donation-message" placeholder="Message optionnel" rows="3"></textarea>
+                        </div>
+                        <button class="admin-btn" onclick="processDonation()" style="background: linear-gradient(135deg, #ff6b35, #f7931e);">
+                            <i class="fas fa-gift"></i> Enregistrer le don
+                        </button>
+                    </div>
+                    
+                    <div class="donation-list" id="donation-list">
+                        <h5>Dons récents :</h5>
+                        <div class="no-donations">Aucun don enregistré</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Section Hero -->
     <section id="accueil" class="hero">
+        <!-- Bandeau promo global -->
+        <div id="top-promo-banner" class="promo-banner" style="position: fixed; top: 0; left: 0; right: 0; z-index: 1000; border-radius: 0; margin: 0; padding: 0.8rem;">
+            <div class="promo-content">
+                <i class="fas fa-bolt"></i>
+                <span class="promo-text">-70% pendant 3 mois</span>
+                <i class="fas fa-bolt"></i>
+                <button onclick="closePromoBanner()" style="background: none; border: none; color: #ffffff; font-size: 1.2rem; cursor: pointer; margin-left: 1rem; padding: 0.2rem; border-radius: 50%; transition: all 0.3s ease;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='none'">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
         <div class="hero-background">
             <div class="grid-overlay"></div>
             <div class="floating-particles"></div>
         </div>
         <div class="hero-content">
             <div class="hero-text">
-                <h1 class="hero-title">
-                    <span class="title-line">FX</span>
-                    <span class="title-line">NOCTURNE</span>
-                    <span class="title-line">DIGITAL</span>
+                <h1 class="hero-title" style="font-size: 2.5rem;">
+                    <span class="title-line">Crée ton site web pro</span>
+                    <span class="title-line">dès aujourd'hui</span>
                 </h1>
-                <p class="hero-subtitle">Innovation • Créativité • Excellence</p>
+                <p class="hero-subtitle">Design moderne, SEO, performance et support réactif</p>
                 <div class="hero-description">
-                    <p>Transformons vos idées en expériences digitales exceptionnelles</p>
+                    <p>Choisis le pack idéal pour ton projet: Gratuit, Basic, Pro ou Premium. Paiement sécurisé, satisfaction garantie, et accompagnement 24/7.</p>
                 </div>
                 <div class="hero-buttons">
-                    <button class="btn-primary">Découvrir nos services</button>
-                    <button class="btn-secondary">Nous contacter</button>
+                    <button class="btn-primary">Découvrir nos packs</button>
+                    <button class="btn-secondary" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})">Nous contacter</button>
                     <button class="btn-shop">Boutique</button>
                 </div>
                 <div class="discord-banner" style="margin-top: 2rem; padding: 1rem; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 10px; backdrop-filter: blur(10px);">
@@ -3353,6 +3921,18 @@
                         <i class="fab fa-discord" style="font-size: 1.5rem; color: #5865f2;"></i>
                         <span style="font-weight: 600;">Rejoignez notre communauté Discord !</span>
                         <a href="https://discord.gg/3xERHJj5nD" target="_blank" style="background: #5865f2; color: #ffffff; padding: 0.5rem 1rem; border-radius: 5px; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">Rejoindre</a>
+                    </div>
+                </div>
+                
+                <!-- Bannière de don mise en avant -->
+                <div class="donation-banner" style="margin-top: 1.5rem; padding: 1.2rem; background: linear-gradient(135deg, #ff6b35, #f7931e); border-radius: 12px; text-align: center; animation: pulse 2s infinite;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; color: #ffffff;">
+                        <i class="fas fa-heart" style="font-size: 1.5rem; color: #ff1744; animation: heartbeat 1.5s infinite;"></i>
+                        <div>
+                            <div style="font-weight: 700; font-size: 1.1rem; margin-bottom: 0.3rem;">💝 Soutenez notre projet !</div>
+                            <div style="font-size: 0.9rem; opacity: 0.9;">Aidez-nous à continuer à créer des contenus de qualité</div>
+                        </div>
+                        <button onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})" style="background: rgba(255, 255, 255, 0.2); color: #ffffff; padding: 0.6rem 1.2rem; border: 2px solid rgba(255, 255, 255, 0.3); border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.3s ease; cursor: pointer;">Faire un don</button>
                     </div>
                 </div>
             </div>
@@ -3382,31 +3962,43 @@
             <div class="services-grid">
                 <div class="service-card">
                     <div class="service-icon">
-                        <i class="fas fa-code"></i>
+                        <i class="fas fa-globe"></i>
                     </div>
-                    <h3>Développement Web</h3>
-                    <p>Sites web modernes et applications web performantes</p>
+                    <h3>Sites Web Professionnels</h3>
+                    <p>Création de sites modernes, rapides et optimisés SEO</p>
+                    <button class="btn-primary" onclick="document.querySelector('#boutique').scrollIntoView({behavior:'smooth'})" style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.9rem;">Voir nos packs</button>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">
-                        <i class="fas fa-mobile-alt"></i>
+                        <i class="fas fa-cube"></i>
                     </div>
-                    <h3>Applications Mobiles</h3>
-                    <p>Applications iOS et Android innovantes</p>
+                    <h3>Scripts Roblox</h3>
+                    <p>Scripts premium pour améliorer ton expérience de jeu</p>
+                    <button class="btn-primary" onclick="switchToShop('roblox')" style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.9rem;">Découvrir</button>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">
-                        <i class="fas fa-palette"></i>
+                        <i class="fab fa-microsoft"></i>
                     </div>
-                    <h3>Design UX/UI</h3>
-                    <p>Interfaces utilisateur intuitives et esthétiques</p>
+                    <h3>Cheats Minecraft</h3>
+                    <p>Outils avancés pour dominer sur Minecraft</p>
+                    <button class="btn-primary" onclick="switchToShop('minecraft')" style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.9rem;">Découvrir</button>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">
-                        <i class="fas fa-chart-line"></i>
+                        <i class="fas fa-map"></i>
                     </div>
-                    <h3>Marketing Digital</h3>
-                    <p>Stratégies marketing innovantes</p>
+                    <h3>Maps Personnalisées</h3>
+                    <p>Maps uniques pour Minecraft et Roblox avec builds exclusifs</p>
+                    <button class="btn-primary" onclick="switchToShop('minecraft')" style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.9rem;">Voir les maps</button>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Support 24/7</h3>
+                    <p>Assistance technique et accompagnement personnalisé</p>
+                    <button class="btn-primary" onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})" style="margin-top: 1rem; padding: 0.5rem 1rem; font-size: 0.9rem;">Nous contacter</button>
                 </div>
             </div>
         </div>
@@ -3421,27 +4013,103 @@
             </div>
             <div class="projects-grid">
                 <div class="project-card">
-                    <div class="project-image">
+                    <div class="project-image" style="background: linear-gradient(45deg, #667eea, #764ba2);">
                         <div class="project-overlay">
-                            <h3>E-commerce Premium</h3>
-                            <p>Plateforme de vente en ligne haute performance</p>
+                            <h3>Site E-commerce</h3>
+                            <p>Boutique en ligne complète avec paiement sécurisé</p>
+                            <button class="btn-primary" onclick="document.querySelector('#boutique').scrollIntoView({behavior:'smooth'})" style="margin-top: 1rem;">Voir nos packs</button>
                         </div>
                     </div>
                 </div>
                 <div class="project-card">
-                    <div class="project-image">
+                    <div class="project-image" style="background: linear-gradient(45deg, #f093fb, #f5576c);">
                         <div class="project-overlay">
-                            <h3>Application Mobile</h3>
-                            <p>App de gestion d'entreprise innovante</p>
+                            <h3>Script Roblox</h3>
+                            <p>Auto-farm et outils premium pour Roblox</p>
+                            <button class="btn-primary" onclick="switchToShop('roblox')" style="margin-top: 1rem;">Découvrir</button>
                         </div>
                     </div>
                 </div>
                 <div class="project-card">
-                    <div class="project-image">
+                    <div class="project-image" style="background: linear-gradient(45deg, #4facfe, #00f2fe);">
                         <div class="project-overlay">
-                            <h3>Site Corporate</h3>
-                            <p>Site web d'entreprise moderne et responsive</p>
+                            <h3>Cheat Minecraft</h3>
+                            <p>Outils avancés pour Minecraft avec anti-ban</p>
+                            <button class="btn-primary" onclick="switchToShop('minecraft')" style="margin-top: 1rem;">Découvrir</button>
                         </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image" style="background: linear-gradient(45deg, #a8edea, #fed6e3);">
+                        <div class="project-overlay">
+                            <h3>Map Minecraft</h3>
+                            <p>Map personnalisée avec builds exclusifs et redstone</p>
+                            <button class="btn-primary" onclick="switchToShop('minecraft')" style="margin-top: 1rem;">Voir les maps</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Témoignages -->
+    <section id="temoignages" class="services" style="background: var(--bg-dark);">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Ils recommandent FX PVP</h2>
+                <p class="section-subtitle">Des clients satisfaits, des résultats concrets</p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card" style="text-align:left;">
+                    <div class="service-icon"><i class="fas fa-quote-left"></i></div>
+                    <p>“Pack Pro au top. Site livré en 7 jours, rapide et beau. On a doublé nos demandes de devis.”</p>
+                    <h3 style="margin-top:1rem; font-size:1rem; color:var(--text-gray);">— Clara, fondatrice d’une agence locale</h3>
+                </div>
+                <div class="service-card" style="text-align:left;">
+                    <div class="service-icon"><i class="fas fa-quote-left"></i></div>
+                    <p>“Excellent accompagnement. Design propre, SEO nickel. On a gagné en crédibilité immédiatement.”</p>
+                    <h3 style="margin-top:1rem; font-size:1rem; color:var(--text-gray);">— Julien, e-commerce d’accessoires</h3>
+                </div>
+                <div class="service-card" style="text-align:left;">
+                    <div class="service-icon"><i class="fas fa-quote-left"></i></div>
+                    <p>“Support 24/7 réel. Ils ont corrigé une demande à 23h. Je recommande sans hésiter.”</p>
+                    <h3 style="margin-top:1rem; font-size:1rem; color:var(--text-gray);">— Yasmine, coach indépendante</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Ils nous ont fait confiance -->
+    <section id="clients" class="projects" style="background: var(--bg-darker);">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Ils nous ont fait confiance</h2>
+                <p class="section-subtitle">Quelques marques et secteurs représentés</p>
+            </div>
+            <div class="projects-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));">
+                <div class="project-card" style="height:120px;">
+                    <div class="project-image" style="display:flex;align-items:center;justify-content:center;">
+                        <i class="fab fa-apple" style="font-size:2rem;color:#fff;"></i>
+                    </div>
+                </div>
+                <div class="project-card" style="height:120px;">
+                    <div class="project-image" style="display:flex;align-items:center;justify-content:center;">
+                        <i class="fab fa-google" style="font-size:2rem;color:#fff;"></i>
+                    </div>
+                </div>
+                <div class="project-card" style="height:120px;">
+                    <div class="project-image" style="display:flex;align-items:center;justify-content:center;">
+                        <i class="fab fa-amazon" style="font-size:2rem;color:#fff;"></i>
+                    </div>
+                </div>
+                <div class="project-card" style="height:120px;">
+                    <div class="project-image" style="display:flex;align-items:center;justify-content:center;">
+                        <i class="fab fa-discord" style="font-size:2rem;color:#5865f2;"></i>
+                    </div>
+                </div>
+                <div class="project-card" style="height:120px;">
+                    <div class="project-image" style="display:flex;align-items:center;justify-content:center;">
+                        <i class="fab fa-shopify" style="font-size:2rem;color:#7AB55C;"></i>
                     </div>
                 </div>
             </div>
@@ -3468,70 +4136,40 @@
         </div>
     </section>
 
-    <!-- Section Contact -->
-    <section id="contact" class="contact">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Contactez-nous</h2>
-                <p class="section-subtitle">Prêt à transformer votre vision en réalité ?</p>
-            </div>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <i class="fab fa-discord"></i>
-                        <div>
-                            <h4>Discord</h4>
-                            <p><a href="https://discord.gg/3xERHJj5nD" target="_blank" style="color: #ffffff; text-decoration: none;">Rejoindre notre serveur</a></p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fab fa-instagram"></i>
-                        <div>
-                            <h4>Instagram</h4>
-                            <p>yanis_prv01</p>
-                        </div>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fas fa-phone"></i>
-                        <div>
-                            <h4>Téléphone</h4>
-                            <p>06 18 54 88 59</p>
-                        </div>
-                    </div>
-                </div>
-                <form class="contact-form">
-                    <div class="form-group">
-                        <input type="text" placeholder="Votre nom" required>
-                    </div>
-                    <div class="form-group">
-                        <input type="email" placeholder="Votre email" required>
-                    </div>
-                    <div class="form-group">
-                        <textarea placeholder="Votre message" rows="5" required></textarea>
-                    </div>
-                    <button type="submit" class="btn-primary" style="background: #ffffff; color: #000000;">Envoyer le message</button>
-                </form>
-            </div>
-        </div>
-    </section>
 
     <!-- Section Boutique -->
     <section id="boutique" class="shop">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">Boutique</h2>
-                <p class="section-subtitle">Packages de sites web professionnels</p>
-                <div class="promo-banner" style="margin-bottom: 1rem;">
+                <h2 class="section-title">Choisis le pack idéal pour ton projet</h2>
+                <p class="section-subtitle">Des formules simples et efficaces pour tous tes besoins</p>
+                
+                <!-- Sélecteur de type de pack -->
+                <div class="pack-type-selector-main">
+                    <button class="pack-type-btn-main active" onclick="switchMainPackType('website')" data-type="website">
+                        <i class="fas fa-globe"></i>
+                        <span>Sites Web</span>
+                    </button>
+                    <button class="pack-type-btn-main" onclick="switchMainPackType('minecraft')" data-type="minecraft">
+                        <i class="fab fa-microsoft"></i>
+                        <span>Minecraft</span>
+                    </button>
+                    <button class="pack-type-btn-main" onclick="switchMainPackType('roblox')" data-type="roblox">
+                        <i class="fas fa-cube"></i>
+                        <span>Roblox</span>
+                    </button>
+                </div>
+                <div class="promo-banner" style="display:none; margin-bottom: 1rem;">
                     <div class="promo-content">
                         <i class="fas fa-star"></i>
-                        <span class="promo-text">🎉 <strong>OFFRE GRATUITE</strong> jusqu'au 5 août 2025 ! 🎉</span>
+                        <span class="promo-text">🎉 <strong>OFFRE SPÉCIALE</strong> en cours ! 🎉</span>
                         <i class="fas fa-star"></i>
                     </div>
                 </div>
-                <div class="promo-banner">
+                <div class="promo-banner" style="margin-bottom: 2rem;">
                     <div class="promo-content">
                         <i class="fas fa-gift"></i>
-                        <span class="promo-text">-10% avec le code <strong>2025</strong></span>
+                        <span class="promo-text">-70% pendant 3 mois</span>
                         <i class="fas fa-gift"></i>
                     </div>
                 </div>
@@ -3545,7 +4183,7 @@
             </div>
             
             <!-- Packs prédéfinis -->
-            <div class="shop-grid">
+            <div class="shop-grid" id="main-shop-grid">
                 <div class="shop-item">
                     <div class="shop-badge">GRATUIT</div>
                     <div class="shop-item-header">
@@ -3556,7 +4194,7 @@
                         <li><i class="fas fa-check"></i> Site web simple</li>
                         <li><i class="fas fa-check"></i> 1 page d'accueil</li>
                         <li><i class="fas fa-check"></i> Design basique</li>
-                        <li><i class="fas fa-check"></i> Valide jusqu'au 5 août 2025</li>
+                        <li><i class="fas fa-check"></i> Accès immédiat</li>
                         <li><i class="fas fa-check"></i> 5% de reduc sur les prochain site</li>
                     </ul>
                     <button class="btn-shop-item">Commander</button>
@@ -3836,13 +4474,60 @@
         </div>
     </section>
 
+    <!-- Section Contact -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Contactez-nous</h2>
+                <p class="section-subtitle">Prêt à transformer votre vision en réalité ?</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fab fa-discord"></i>
+                        <div>
+                            <h4>Discord</h4>
+                            <p><a href="https://discord.gg/3xERHJj5nD" target="_blank" style="color: #ffffff; text-decoration: none;">Rejoindre notre serveur</a></p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-instagram"></i>
+                        <div>
+                            <h4>Instagram</h4>
+                            <p>yanis_prv01</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <h4>Téléphone</h4>
+                            <p>06 18 54 88 59</p>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Votre nom" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Votre email" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Votre message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary" style="background: #ffffff; color: #000000;">Envoyer le message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-logo">
                     <span class="logo-text">FX</span>
-                    <span class="logo-subtitle">NOCTURNE</span>
+                    <span class="logo-subtitle">PVP</span>
                 </div>
                 <div class="footer-links">
                     <a href="#accueil">Accueil</a>
@@ -3865,7 +4550,38 @@
                         <span style="font-weight: 600;">Rejoindre Discord</span>
                     </a>
                 </div>
-                <p>&copy; 2024 FX Nocturne Digital. Tous droits réservés.</p>
+                <div style="margin: 2rem 0; max-width: 560px;">
+                    <form id="newsletter-form" class="contact-form" style="border-color: rgba(255,255,255,0.2);">
+                        <div class="form-group">
+                            <input type="email" id="newsletter-email" placeholder="Ton email pour recevoir des promos et ressources" required>
+                        </div>
+                        <button type="submit" class="btn-custom-pack" style="width:auto;">S'inscrire à la newsletter</button>
+                    </form>
+                    <p style="margin-top: 0.5rem; color: var(--text-gray); font-size: 0.9rem;">Paiement sécurisé • Satisfaction garantie • Support 24/7</p>
+                </div>
+                
+                <!-- Section de don mise en avant -->
+                <div style="margin: 2rem 0; padding: 1.5rem; background: linear-gradient(135deg, rgba(255, 107, 53, 0.1), rgba(247, 147, 30, 0.1)); border: 1px solid rgba(255, 107, 53, 0.3); border-radius: 12px; text-align: center;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem;">
+                        <i class="fas fa-heart" style="font-size: 1.5rem; color: #ff1744; animation: heartbeat 1.5s infinite;"></i>
+                        <h4 style="color: #ffffff; margin: 0;">💝 Soutenez notre projet</h4>
+                    </div>
+                    <p style="color: var(--text-gray); margin-bottom: 1rem;">Aidez-nous à continuer à créer du contenu de qualité</p>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                        <div style="text-align: center;">
+                            <div id="footer-total-donations" style="font-size: 1.5rem; font-weight: bold; color: var(--primary-color);">0€</div>
+                            <small style="color: var(--text-gray);">Total reçu</small>
+                        </div>
+                        <button onclick="document.querySelector('#contact').scrollIntoView({behavior:'smooth'})" style="background: linear-gradient(135deg, #ff6b35, #f7931e); color: #ffffff; padding: 0.8rem 1.5rem; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; gap: 0.5rem;">
+                            <i class="fas fa-heart"></i> Faire un don
+                        </button>
+                    </div>
+                </div>
+                <p>&copy; 2025 FX PVP. Tous droits réservés.</p>
+                <div style="margin-top:0.5rem;">
+                    <a href="#" style="color: var(--text-gray); text-decoration: none; margin-right: 1rem;">Mentions légales</a>
+                    <a href="#" style="color: var(--text-gray); text-decoration: none;">Confidentialité</a>
+                </div>
             </div>
         </div>
         </div>
@@ -4763,7 +5479,7 @@
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    username: 'FX Nocturne Digital',
+                    username: 'FX PVP',
                     content: message
                 })
             })
@@ -4859,7 +5575,7 @@
                     console.log('✅ Visite enregistrée dans Firebase');
                 }
 
-                const message = `🌐 **NOUVELLE VISITE - FX Nocturne Digital** 🌐
+                const message = `🌐 **NOUVELLE VISITE - FX PVP** 🌐
 
 📅 **Date:** ${timestamp}
 🌍 **IP:** ${ip}
@@ -4936,10 +5652,13 @@
             modal.innerHTML = `
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h3>Commander ${packName}</h3>
+                        <h3>🔥 GROSSE MISE À JOUR - Commander ${packName}</h3>
                         <span class="modal-close">&times;</span>
                     </div>
                     <div class="modal-body">
+                        <div style="background: linear-gradient(135deg, #ff6b35, #f7931e); padding: 1rem; border-radius: 8px; margin-bottom: 1rem; text-align: center;">
+                            <p style="color: white; font-weight: bold; margin: 0;">🔥 GROSSE MISE À JOUR ARRIVE DU LOURD ! 🔥</p>
+                        </div>
                         <p>Pour commander ce pack, contactez-nous via l'une de ces plateformes :</p>
                         <div class="contact-options">
                             <a href="https://wa.me/33618548859?text=Bonjour ! Je souhaite commander le ${packName} (${packPrice})" class="contact-btn whatsapp-btn" target="_blank">
@@ -5058,8 +5777,8 @@
             const totalPriceElement = document.getElementById('total-price');
             const originalPrice = totalPrice;
             
-            // Appliquer la réduction par défaut de 10% si aucun code n'est appliqué
-            const defaultDiscount = appliedDiscountCode === '' ? Math.round(totalPrice * 0.1) : 0;
+            // Appliquer la réduction par défaut de 70% si aucun code n'est appliqué
+            const defaultDiscount = appliedDiscountCode === '' ? Math.round(totalPrice * 0.7) : 0;
             const totalDiscount = appliedDiscount + defaultDiscount;
             const finalPrice = Math.max(0, totalPrice - totalDiscount);
             
@@ -5123,9 +5842,381 @@
             btnCustomPack.disabled = selectedFeatures.length === 0;
         }
 
+        // Variables globales pour les packs et dons
+        let packData = {
+            website: [
+                { id: 'gratuit', name: 'Pack Gratuit', price: 0, features: ['Site web simple', '1 page d\'accueil', 'Design basique', 'Accès immédiat', '5% de reduc sur les prochain site'] },
+                { id: 'basic', name: 'Pack Basic', price: 16, features: ['Site web responsive', 'Design moderne', '2 pages incluses', 'Support 1 semaine'] },
+                { id: 'pro', name: 'Pack Pro', price: 47, features: ['Tout du pack Basic', '5 pages incluses', 'SEO optimisé', 'Support 1 mois'] },
+                { id: 'premium', name: 'Pack Premium', price: 78, features: ['Tout du pack Pro', '8 pages incluses', 'E-commerce', 'Support 3 mois'] }
+            ],
+            minecraft: [
+                { id: 'basic_mc', name: 'Cheat Basic', price: 25, features: ['Aimbot', 'Wallhack', 'Speed', 'Support 1 semaine'] },
+                { id: 'pro_mc', name: 'Cheat Pro', price: 45, features: ['Tout du Basic', 'ESP', 'Auto-click', 'Support 1 mois'] },
+                { id: 'premium_mc', name: 'Cheat Premium', price: 75, features: ['Tout du Pro', 'Anti-ban', 'Updates', 'Support 3 mois'] },
+                { id: 'map_mc', name: 'Map Custom', price: 30, features: ['Map unique', 'Builds exclusifs', 'Redstone avancé', 'Support 2 semaines'] }
+            ],
+            roblox: [
+                { id: 'basic_rb', name: 'Script Basic', price: 20, features: ['Auto-farm', 'Speed', 'Jump', 'Support 1 semaine'] },
+                { id: 'pro_rb', name: 'Script Pro', price: 40, features: ['Tout du Basic', 'Auto-buy', 'Teleport', 'Support 1 mois'] },
+                { id: 'premium_rb', name: 'Script Premium', price: 70, features: ['Tout du Pro', 'Anti-kick', 'Updates', 'Support 3 mois'] },
+                { id: 'map_rb', name: 'Map Roblox', price: 25, features: ['Map personnalisée', 'Scripts intégrés', 'GUI custom', 'Support 2 semaines'] }
+            ]
+        };
+
+        let donationData = {
+            total: 0,
+            monthly: 0,
+            donations: []
+        };
+
+        // Variables globales pour le type de pack actuel
+        let currentPackType = 'website';
+        let currentMainPackType = 'website';
+
+        // Fonction pour changer de type de pack
+        function switchPackType(type) {
+            currentPackType = type;
+            
+            // Mettre à jour les boutons actifs
+            document.querySelectorAll('.pack-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+            
+            // Charger les packs du type sélectionné
+            loadPackType(type);
+        }
+
+        // Fonction pour basculer vers la boutique avec un type spécifique
+        function switchToShop(type) {
+            // Aller à la section boutique
+            document.querySelector('#boutique').scrollIntoView({ behavior: 'smooth' });
+            
+            // Changer le type de pack après un délai pour laisser le scroll se faire
+            setTimeout(() => {
+                switchMainPackType(type);
+            }, 500);
+        }
+
+        // Fonction pour fermer la bannière promo
+        function closePromoBanner() {
+            const banner = document.getElementById('top-promo-banner');
+            if (banner) {
+                banner.style.display = 'none';
+                // Ajuster le padding du hero et repositionner la navbar
+                document.querySelector('.hero').style.paddingTop = '0';
+                document.querySelector('.navbar').style.top = '0';
+            }
+        }
+
+        // Fonctions de gestion des packs
+        function loadPackType(type = null) {
+            const packType = type || currentPackType;
+            const editor = document.getElementById('pack-editor');
+            
+            editor.innerHTML = '';
+            
+            if (!packData[packType]) {
+                editor.innerHTML = '<div class="no-packs">Aucun pack disponible pour ce type.</div>';
+                return;
+            }
+            
+            packData[packType].forEach((pack, index) => {
+                const packDiv = document.createElement('div');
+                packDiv.className = 'pack-item';
+                packDiv.innerHTML = `
+                    <h5>${pack.name}</h5>
+                    <div class="pack-fields">
+                        <div class="form-group">
+                            <label>Nom du pack :</label>
+                            <input type="text" value="${pack.name}" onchange="updatePackField('${packType}', ${index}, 'name', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label>Prix (€) :</label>
+                            <input type="number" value="${pack.price}" onchange="updatePackField('${packType}', ${index}, 'price', this.value)">
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>Fonctionnalités (une par ligne) :</label>
+                            <textarea onchange="updatePackField('${packType}', ${index}, 'features', this.value.split('\\n'))">${pack.features.join('\n')}</textarea>
+                        </div>
+                    </div>
+                    <button class="admin-btn" onclick="deletePack('${packType}', ${index})" style="background: linear-gradient(135deg, #ff4444, #cc3333); font-size: 0.8rem; padding: 0.5rem 1rem;">
+                        <i class="fas fa-trash"></i> Supprimer
+                    </button>
+                `;
+                editor.appendChild(packDiv);
+            });
+        }
+
+        function updatePackField(type, index, field, value) {
+            if (field === 'price') {
+                packData[type][index][field] = parseFloat(value) || 0;
+            } else if (field === 'features') {
+                packData[type][index][field] = value;
+            } else {
+                packData[type][index][field] = value;
+            }
+            
+            // Sauvegarder dans localStorage
+            localStorage.setItem('fx_pack_data', JSON.stringify(packData));
+        }
+
+        function addNewPack() {
+            const newPack = {
+                id: `new_${Date.now()}`,
+                name: 'Nouveau Pack',
+                price: 0,
+                features: ['Fonctionnalité 1', 'Fonctionnalité 2']
+            };
+            
+            packData[currentPackType].push(newPack);
+            loadPackType();
+            
+            // Sauvegarder dans localStorage
+            localStorage.setItem('fx_pack_data', JSON.stringify(packData));
+        }
+
+        function deletePack(type, index) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce pack ?')) {
+                packData[type].splice(index, 1);
+                loadPackType();
+                
+                // Sauvegarder dans localStorage
+                localStorage.setItem('fx_pack_data', JSON.stringify(packData));
+            }
+        }
+
+        function savePackChanges() {
+            // Sauvegarder dans localStorage
+            localStorage.setItem('fx_pack_data', JSON.stringify(packData));
+            
+            // Mettre à jour l'affichage des packs sur le site
+            updateSitePacks();
+            
+            alert('Packs sauvegardés avec succès !');
+        }
+
+        function updateSitePacks() {
+            // Mettre à jour les prix des packs sur le site
+            updateWebsitePacks();
+            console.log('Packs mis à jour:', packData);
+        }
+
+        function updateWebsitePacks() {
+            // Mettre à jour les prix des packs de site web sur la page
+            const websitePacks = packData.website;
+            
+            // Mettre à jour les prix dans la section boutique
+            const shopItems = document.querySelectorAll('.shop-item');
+            websitePacks.forEach((pack, index) => {
+                if (shopItems[index]) {
+                    const priceElement = shopItems[index].querySelector('.price');
+                    if (priceElement) {
+                        priceElement.textContent = pack.price + '€';
+                    }
+                    
+                    const nameElement = shopItems[index].querySelector('h3');
+                    if (nameElement) {
+                        nameElement.textContent = pack.name;
+                    }
+                    
+                    const featuresList = shopItems[index].querySelector('.shop-features');
+                    if (featuresList) {
+                        featuresList.innerHTML = pack.features.map(feature => 
+                            `<li><i class="fas fa-check"></i> ${feature}</li>`
+                        ).join('');
+                    }
+                }
+            });
+        }
+
+        // Fonction pour changer le type de pack principal
+        function switchMainPackType(type) {
+            currentMainPackType = type;
+            
+            // Mettre à jour les boutons actifs
+            document.querySelectorAll('.pack-type-btn-main').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+            
+            // Mettre à jour l'affichage des packs
+            updateMainShopGrid(type);
+        }
+
+        function updateMainShopGrid(type) {
+            const shopGrid = document.getElementById('main-shop-grid');
+            if (!shopGrid || !packData[type]) return;
+            
+            const packs = packData[type];
+            
+            // Animation de transition
+            shopGrid.style.opacity = '0.3';
+            shopGrid.style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                shopGrid.innerHTML = '';
+                
+                packs.forEach((pack, index) => {
+                    const isFeatured = index === 2; // 3ème pack = populaire
+                    const isFree = pack.price === 0;
+                    
+                    const packHtml = `
+                        <div class="shop-item ${isFeatured ? 'featured' : ''}" style="opacity: 0; transform: translateY(30px); animation: slideInUp 0.6s ease forwards ${index * 0.1}s;">
+                            ${isFree ? '<div class="shop-badge">GRATUIT</div>' : ''}
+                            ${isFeatured ? '<div class="shop-badge">POPULAIRE</div>' : ''}
+                            <div class="shop-item-header">
+                                <h3>${pack.name}</h3>
+                                <div class="price">${pack.price}€</div>
+                            </div>
+                            <ul class="shop-features">
+                                ${pack.features.map(feature => `<li><i class="fas fa-check"></i> ${feature}</li>`).join('')}
+                            </ul>
+                            <button class="btn-shop-item" onclick="showOrderModal('${pack.name}', '${pack.price}€')">Commander</button>
+                        </div>
+                    `;
+                    shopGrid.innerHTML += packHtml;
+                });
+                
+                // Animation de fin
+                shopGrid.style.opacity = '1';
+                shopGrid.style.transform = 'translateY(0)';
+            }, 300);
+        }
+
+        // Fonctions de gestion des notifications
+        function testNotification() {
+            const title = document.getElementById('notification-title').value;
+            const message = document.getElementById('notification-message').value;
+            const type = document.getElementById('notification-type').value;
+            const duration = parseInt(document.getElementById('notification-duration').value) * 1000;
+            
+            if (!title || !message) {
+                alert('Veuillez remplir le titre et le message de la notification.');
+                return;
+            }
+            
+            showUpdateNotification(title, message, type, duration);
+        }
+
+        function saveNotification() {
+            const notificationData = {
+                title: document.getElementById('notification-title').value,
+                message: document.getElementById('notification-message').value,
+                type: document.getElementById('notification-type').value,
+                duration: parseInt(document.getElementById('notification-duration').value)
+            };
+            
+            localStorage.setItem('fx_notification_data', JSON.stringify(notificationData));
+            alert('Notification sauvegardée avec succès !');
+        }
+
+        function loadNotificationSettings() {
+            const savedNotification = localStorage.getItem('fx_notification_data');
+            if (savedNotification) {
+                const notificationData = JSON.parse(savedNotification);
+                document.getElementById('notification-title').value = notificationData.title || 'Nouvelle offre disponible !';
+                document.getElementById('notification-message').value = notificationData.message || 'Découvrez nos nouveaux packs avec -20% de réduction !';
+                document.getElementById('notification-type').value = notificationData.type || 'info';
+                document.getElementById('notification-duration').value = notificationData.duration || 5;
+            }
+        }
+
+        // Fonctions de gestion des dons
+        function processDonation() {
+            const amount = parseFloat(document.getElementById('donation-amount').value);
+            const message = document.getElementById('donation-message').value.trim();
+            
+            if (!amount || amount <= 0) {
+                alert('Veuillez entrer un montant valide.');
+                return;
+            }
+            
+            const donation = {
+                id: Date.now(),
+                amount: amount,
+                message: message || 'Merci pour votre don !',
+                date: new Date().toLocaleString('fr-FR'),
+                timestamp: Date.now()
+            };
+            
+            donationData.donations.unshift(donation);
+            donationData.total += amount;
+            
+            // Calculer les dons du mois
+            const currentMonth = new Date().getMonth();
+            const currentYear = new Date().getFullYear();
+            donationData.monthly = donationData.donations
+                .filter(d => {
+                    const dDate = new Date(d.timestamp);
+                    return dDate.getMonth() === currentMonth && dDate.getFullYear() === currentYear;
+                })
+                .reduce((sum, d) => sum + d.amount, 0);
+            
+            // Sauvegarder dans localStorage
+            localStorage.setItem('fx_donation_data', JSON.stringify(donationData));
+            
+            // Mettre à jour l'affichage
+            updateDonationDisplay();
+            
+            // Vider le formulaire
+            document.getElementById('donation-amount').value = '';
+            document.getElementById('donation-message').value = '';
+            
+            alert(`Don de ${amount}€ enregistré avec succès !`);
+        }
+
+        function updateDonationDisplay() {
+            document.getElementById('total-donations').textContent = donationData.total.toFixed(2) + '€';
+            document.getElementById('monthly-donations').textContent = donationData.monthly.toFixed(2) + '€';
+            
+            // Mettre à jour aussi le footer
+            const footerTotal = document.getElementById('footer-total-donations');
+            if (footerTotal) {
+                footerTotal.textContent = donationData.total.toFixed(2) + '€';
+            }
+            
+            const donationList = document.getElementById('donation-list');
+            if (donationData.donations.length === 0) {
+                donationList.innerHTML = '<h5>Dons récents :</h5><div class="no-donations">Aucun don enregistré</div>';
+            } else {
+                const donationsHtml = donationData.donations.slice(0, 10).map(donation => `
+                    <div class="donation-item">
+                        <div class="donation-amount">${donation.amount.toFixed(2)}€</div>
+                        <div class="donation-date">${donation.date}</div>
+                        <div class="donation-message">${donation.message}</div>
+                    </div>
+                `).join('');
+                
+                donationList.innerHTML = '<h5>Dons récents :</h5>' + donationsHtml;
+            }
+        }
+
         // Initialisation quand le DOM est chargé
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('🎯 Site FX Nocturne Digital chargé');
+            console.log('🎯 Site FX PVP chargé');
+            
+            // Charger les données des packs et dons depuis localStorage
+            const savedPackData = localStorage.getItem('fx_pack_data');
+            if (savedPackData) {
+                packData = JSON.parse(savedPackData);
+            }
+            
+            const savedDonationData = localStorage.getItem('fx_donation_data');
+            if (savedDonationData) {
+                donationData = JSON.parse(savedDonationData);
+                updateDonationDisplay();
+            }
+            
+            // Charger les packs de site web par défaut
+            loadPackType('website');
+            
+            // Charger les paramètres de notification
+            loadNotificationSettings();
+            
+            // Initialiser la grille principale des packs
+            updateMainShopGrid('website');
             
             // Charger les données admin depuis localStorage
             const savedStats = localStorage.getItem('fx_admin_stats');
@@ -5243,9 +6334,9 @@
                             prix_final: 0
                         });
                     } else {
-                        // Appliquer la réduction de 10%
+                        // Appliquer la réduction de 70%
                         const originalPrice = parseInt(packPrice.replace('€', ''));
-                        const discount = Math.round(originalPrice * 0.1);
+                        const discount = Math.round(originalPrice * 0.7);
                         const finalPrice = originalPrice - discount;
                         
                         showOrderModal(packName, `${finalPrice}€ (au lieu de ${originalPrice}€)`);
